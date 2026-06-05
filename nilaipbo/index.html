@@ -170,7 +170,7 @@
   <script>
     let dataNilai = [];
 
-    fetch("Hasil Penilaian PBO Kelompok 2026.csv")
+    fetch("data.csv")
       .then(response => response.text())
       .then(csv => {
         dataNilai = parseCSV(csv);
