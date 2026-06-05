@@ -1,0 +1,66 @@
+No,Kelas,Kelompok,NIM Anggota,Tema/Judul Project,Jenis Project,Repository GitHub,Kelengkapan Fitur (20),Implementasi OOP: Inheritance (10),Implementasi OOP: Encapsulation (10),Implementasi OOP: Abstraction (10),Implementasi OOP: Polymorphism (10),Kualitas Kode & Struktur Folder (10),UI/UX & Kemudahan Penggunaan (10),Laporan (10),Presentasi/Demo (10),Kontribusi Anggota (10),Total Nilai
+1,2025A,Kelompok 1,"001, 007, 074, 152","Game labirin ada jebakan menarik, harus mencari jalan tercepat",Game,Ada,20,10,8,5,10,6,10,8,10,10,88.18181818
+2,2025A,Kelompok 2,"004, 223, 119","Dashboard Smart Home, bisa menambah device, bisa toggle device",Dashboard,Ada,17,10,10,7,10,10,8,8,10,10,90.90909091
+3,2025A,Kelompok 3,"070, 209, 192, 253",Dashboard bisa prediksi nilai mahasiswa dan pencatatan,Dashboard,Ada,18,10,7,10,10,10,10,0,10,10,86.36363636
+4,2025A,Kelompok 4,"095, 238, 089, 385",Dashboard untuk siswa bisa ada orang tua dan orang tua,Dashboard,Ada,20,10,10,7,10,10,10,0,10,10,88.18181818
+5,2025A,Kelompok 5,"172, 053, 075","Game stealth bisa sembunyi. Nanti ada mematikan sakelar, ada musuh",Game,Ada,17,10,7,10,8,8,8,8,10,10,87.27272727
+6,2025A,Kelompok 6,"006, 071, 073, 240","Game turn based, meme aneh-aneh, ada windah basudara",Game,Ada,15,10,8,6,10,10,6,10,10,10,86.36363636
+7,2025A,Kelompok 7,"002, 003, 072, 158","Sistem manajemen informasi klinik, ada 4  role user",Dashboard,Ada,20,10,10,10,10,10,10,8,10,10,98.18181818
+8,2025A,Kelompok 8,"097, 147, 210, 237","Game adventure, ada 4 stage untuk dimainkan, bisa terbang dan jalan",Game,Ada,19,10,10,10,8,10,9,8,10,10,94.54545455
+9,2025A,Kelompok 9,"005, 193, 194, 069",Pembayaran UKT,Dashboard,Ada,15,10,10,10,7,10,9,8,10,10,90
+10,2025A,Kelompok 10,"066, 067, 068, 224","Game tembak2an endless, per tiga stage dapet skill",Game,Ada,15,10,10,10,8,10,10,8,10,10,91.81818182
+11,2025B,Kelompok 1,"021, 092, 022","Game cliker sederhana, jualan kopi sederhana untuk di klik klik saja",Game,Ada,10,6,6,6,6,6,5,0,10,10,59.09090909
+12,2025B,Kelompok 2,"161, 195, 159, 241",Game farming bahan-bahan nusantara. Playernya mengambil objek,Game,Ada,15,7,5,10,10,6,8,10,10,10,82.72727273
+13,2025B,Kelompok 3,"102, 018, 100, 114","Game adventure dungeon, menjelajahi dungeon, lawan final bos",Game,Ada,15,10,8,10,10,8,10,10,10,10,91.81818182
+14,2025B,Kelompok 4,"087, 088, 113, 244 (X)","Bow master, ada tiga karakter panahan, endless game",Game,Ada,15,10,10,2,10,10,8,8,10,10,84.54545455
+15,2025B,Kelompok 5,"020, 101, 191, 208","Game supermario, sama tapi tidak bisa nginjek musuh",Game,Ada,13,10,10,10,9,6,6,10,8,10,83.63636364
+16,2025B,Kelompok 6,"110, 222, 242, 235","Game kontra, ada 3 stage, sama kayak kontra biasa",Game,Ada,17,6,5,5,8,7,10,0,10,10,70.90909091
+17,2025B,Kelompok 7,"221, 236, 189, 188","Web Manajemen Kampus untuk keuangan, beasiswa, pengajuan cuti",Dashboard,Ada,15,7,7,7,7,6,7,0,10,10,69.09090909
+18,2025B,Kelompok 8,"019, 187, 023, 093","Kucing mengejar tikus, ada tiga stage dan ada bos di akhir stage",Game,Ada,20,6,6,6,7,7,10,0,10,10,74.54545455
+19,2025B,Kelompok 9,"054, 138, 447, 098","Game ular tangga, multi player bisa sampai empat pemain",Game,Ada,18,5,8,5,5,8,8,10,10,10,79.09090909
+20,2025C,Kelompok 1,"141, 044, 143, 220","Game puzzle, mirip kayak diamond rush. Ada a4 stage, bagus",Game,Ada,20,10,10,10,8,10,10,8,10,10,96.36363636
+21,2025C,Kelompok 2,"139, 148, 086, 186","Stardew Valley, ada macem2 mini game didalemnya. ",Game,Ada,20,10,8,10,10,10,10,0,10,10,89.09090909
+22,2025C,Kelompok 3,"140, 146, 206, 090","Mirip sama kayak harvest moon, sudah tambah object",Game,Ada,15,10,10,10,8,10,8,8,10,10,90
+23,2025C,Kelompok 4,"219, 144, 142, 099","Tower defense, endless, ada jenis-jenis tower berbeda, macem-macem musuh",Game,Ada,17,10,9,10,9,10,8,8,10,10,91.81818182
+24,2025C,Kelompok 5,"164, 184, 205, 196","Kontra, mirip kayak yang ada sebelumnya. Sama",Game,Ada,14,8,6,6,7,10,9,10,8,10,80
+25,2025C,Kelompok 6,"055, 234, 135, 165","Turn based, karakternya Cuma ada 3, tidak bisa ganti karakter",Game,Ada,16,10,8,6,8,10,9,8,10,10,86.36363636
+26,2025C,Kelompok 7,"145, 040, 045, 233","Game cerita, 2D, summoned to another world, RPG",Game,Ada,20,10,8,10,10,10,10,0,10,10,89.09090909
+27,2025C,Kelompok 8,"041, 043, 039, 243","Game kasir, pembeli bisa membeli barang tapi kita juga jadi kasirnya",Game,Ada,15,10,10,8,8,9,8,8,10,10,87.27272727
+28,2025C,Kelompok 9,"042, 136, 137, 185","Game pencak silat, ada dua stage, menang ketika mati semua musuhnya",Game,Ada,15,10,10,6,10,10,10,8,10,10,90
+29,2025D,Kelompok 1,"032, 107, 218, 203","Website booking ruangan, ada harga perruangan, bisa pilih sesi",Dashboard,Ada,15,7,7,7,10,10,10,8,7,7,80
+30,2025D,Kelompok 2,"181, 120, 149, 217","Game fantasi, fitur gatcha, adventure 2d, ada mid bos dan gatcha pedang",Game,Ada,15,10,10,8,7,10,10,0,10,10,81.81818182
+31,2025D,Kelompok 3,"155, 183, 160, 231","game shooter biasa, ada objek yang menghalagi musuh, musuh bisa di killl",Game,Ada,15,10,10,10,10,10,8,0,10,7,81.81818182
+32,2025D,Kelompok 4,"038, 166, 118, 245","Game pesan kopi dan roti, bisa buatkan makanan, tapi ada pembantunya",Game,Ada,15,10,10,10,8,10,10,8,10,10,91.81818182
+33,2025D,Kelompok 5,"204, 156, 154, 151",Game strory dan buat kue di coffe shop. Kayak game windows bikin kue,Game,Ada,18,10,7,10,10,10,8,8,10,10,91.81818182
+34,2025D,Kelompok 6,"162, 232, 153, 246","Game adventure MC, mid bos bisa jadi teman dan anggota, stage terstruktur",Game,Ada,20,10,10,10,7,5,10,8,10,10,90.90909091
+35,2025D,Kelompok 7,"037, 111, 182, 108","Dashboard peminjaman buku, ada barcode scanner",Dashboard,Ada,20,10,10,10,10,10,9,8,10,10,97.27272727
+36,2025D,Kelompok 8,"033, 167, 034, 035","Adventure melawan bos, harus membunuh dengan jumlah tertentu",Game,Ada,15,10,2,5,10,10,10,8,8,10,80
+37,2025D,Kelompok 9,"163, 999","Sistem informasi penjadwalan, reschedule penjadwalan",Dashboard,Ada,18,10,8,10,10,10,9,8,10,10,93.63636364
+38,2025E,Kelompok 1,"178, 130","Dashboard sederhana untuk tambah dan hapus tugas, sangat sederhana",Dashboard,Ada,8,10,10,5,10,5,2,10,10,10,72.72727273
+39,2025E,Kelompok 2,"180, 230","Dashboard topup sederhana, tidak ada login dan register",Dashboard,Ada,8,8,7,7,8,10,3,0,10,10,64.54545455
+40,2025E,Kelompok 3,"132, 052, 047, 115","Game untuk petualangan sederhana, ada 2 stage, tema hantu",Game,Ada,15,10,10,8,8,10,9,8,10,10,89.09090909
+41,2025E,Kelompok 4,"048, 197, 133, 179","Website jual beli barang, ada admin dan user. Oke",Dashboard,Ada,17,10,7,7,7,8,9,0,10,10,77.27272727
+42,2025E,Kelompok 5,"134, 202, 201, 211","Dashboard kopi, ada guest, member, admin, barista",Dashboard,Ada,20,10,8,10,10,10,10,8,10,10,96.36363636
+43,2025E,Kelompok 6,"131, 128, 198, 169","E Wallet, bisa transfer uang, admin bisa blokir, bisa report, record, notif",Dashboard,Ada,16,10,10,8,8,10,7,8,10,10,88.18181818
+44,2025E,Kelompok 7,"050, 051, 129, 168","Dashboard untuk salon rambut, ada admin, user, dll",Dashboard,Ada,18,10,10,10,10,10,8,10,10,10,96.36363636
+45,2025E,Kelompok 8,"046, 049, 116, 216","Game tower defense, sudah sangat oke gameplaynya",Game,Ada,10,10,10,10,10,10,8,10,10,10,89.09090909
+46,2025E,Kelompok 9,"121, 117, 248, 239","Dashboard Toko sederhana, tampilan agak kacau balau",Dashboard,Ada,9,10,10,8,7,7,7,8,10,10,78.18181818
+47,2025E,Kelompok 10,"105, 109, 106, 229","Sewa mobil, ada admin dan ada user, bisa sewa mobil dan ada denda juga",Dashboard,Ada,15,8,5,6,7,10,8,10,9,10,80
+48,2025F,Kelompok 1,"078, 025, 170, 228","Dashboard paket untuk mengirim barang bisa cek resi, pengirim user admin",Dashboard,Ada,20,10,8,10,10,10,10,10,10,10,98.18181818
+49,2025F,Kelompok 2,"031, 200, 175, 177","Perpustakaan wiyung, daftar buku, anggota, bisa pinjam",Dashboard,Ada,18,10,10,10,10,10,8,0,10,10,87.27272727
+50,2025F,Kelompok 3,"214, 079, 199, 227","Game adventure, terstruktur dengan baik. Hasil juga sangat oke",Game,Ada,20,10,8,10,10,10,10,8,10,10,96.36363636
+51,2025F,Kelompok 4,"026, 028, 082, 085",Game visual novel tapi tidak terlalu terlihat hasilnya dengan baik,Game,Ada,8,10,8,10,10,10,5,8,10,10,80.90909091
+52,2025F,Kelompok 5,"027, 077, 081, 122",Membuat dashboard kas kelas bisa buat pemasukan pengeluaran,Dashboard,Ada,15,10,10,7,10,6,7,10,10,10,86.36363636
+53,2025F,Kelompok 6,"250, 104, 249 (X), 084","Game tema eksplorasi nusantara, ada karakter nusantara",Game,Ada,15,10,7,7,10,9,10,8,10,10,87.27272727
+54,2025F,Kelompok 7,"080, 096, 076","Game bos menjaga chest, nanti membunuh hero yang datang",Game,Ada,17,10,7,10,7,10,10,10,10,10,91.81818182
+55,2025F,Kelompok 8,"030, 083, 176","Game farming, gamenya bagus dan terkosep dengan baik",Game,Ada,20,10,7,10,10,10,10,8,10,10,95.45454545
+56,2025F,Kelompok 9,"029, 112, 213 (X)","Game adventure 2D mirip kontra, ada fighter, mage, dan archer",Game,Ada,16,6,6,6,6,10,9,10,10,10,80.90909091
+57,2025G,Kelompok 1,"251, 014, 157, 094","Adventure Game mirip Super Mario, tapi ada dinosaurusnya",Game,Ada,20,10,5,7,10,10,10,8,7,10,88.18
+58,2025G,Kelompok 2,"016, 058, 056, 064","Game kartu UNO, tapi beda ANU (absolutly not uno)",Game,Ada,20,10,5,8,10,10,10,8,10,10,91.82
+59,2025G,Kelompok 3,"013, 017, 252, 212","Adventure game 2D melawan monster, ada bos, dua stage",Game,Ada,20,10,10,5,8,10,10,8,10,10,91.82
+60,2025G,Kelompok 4,"171, 061, 091, 123","Game kampung eksplorasi di kampung, fitur lengkap",Game,Ada,20,10,8,10,10,10,10,8,10,10,96.36
+61,2025G,Kelompok 5,"008, 012, 063, 065","Game timun emas dan buto ijo, game 3d, gameplay oke",Game,Ada,20,10,10,10,9,10,5,8,10,10,92.73
+62,2025G,Kelompok 6,"011. 059, 009, 225","Dashboard untuk toko online, bisa lihat transaksi, inventory, general",Dashboard,Ada,20,10,6,10,10,10,8,8,10,10,92.73
+63,2025G,Kelompok 7,"126, 226, 057, 015","Game adventure luar angkasa, ada beberapa stage lengkap",Game,Ada,15,7,7,7,7,7,10,8,10,10,80
+64,2025G,Kelompok 8,"124, 173, 174, 010",Game FPS labirin ada zombienya,Game,Ada,18,7,7,7,10,10,7,8,7,7,80
+65,2025G,Kelompok 9,"060, 127, 062, 125","Dashboard pemesanan tiket bioskop, bisa transaksi basic",Dashboard,Ada,20,8,7,10,10,10,10,8,8,10,91.82

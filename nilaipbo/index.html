@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cek Nilai Project PBO</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #dbeafe, #fce7f3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 720px;
+      background: white;
+      border-radius: 22px;
+      padding: 28px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.12);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 8px;
+      color: #1e3a8a;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 24px;
+    }
+
+    .search-box {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    input {
+      flex: 1;
+      padding: 14px;
+      border-radius: 12px;
+      border: 1px solid #ddd;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 14px 20px;
+      border: none;
+      border-radius: 12px;
+      background: #2563eb;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #1d4ed8;
+    }
+
+    .result {
+      display: none;
+      margin-top: 20px;
+      border-radius: 18px;
+      background: #f8fafc;
+      padding: 20px;
+      border: 1px solid #e5e7eb;
+    }
+
+    .score {
+      text-align: center;
+      font-size: 46px;
+      font-weight: bold;
+      color: #16a34a;
+      margin: 10px 0 20px;
+    }
+
+    .info-row {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 10px;
+      padding: 9px 0;
+      border-bottom: 1px dashed #ddd;
+    }
+
+    .info-row strong {
+      color: #1e40af;
+    }
+
+    .not-found {
+      display: none;
+      background: #fee2e2;
+      color: #991b1b;
+      padding: 14px;
+      border-radius: 12px;
+      text-align: center;
+      margin-top: 16px;
+    }
+
+    @media (max-width: 600px) {
+      .search-box {
+        flex-direction: column;
+      }
+
+      .info-row {
+        grid-template-columns: 1fr;
+      }
+
+      .score {
+        font-size: 38px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Cek Nilai Project PBO</h1>
+    <p class="subtitle">Masukkan NIM untuk melihat hasil nilai project</p>
+
+    <div class="search-box">
+        <input type="text" id="nimInput1" placeholder="NIM Anggota 1">
+        <input type="text" id="nimInput2" placeholder="NIM Anggota 2">
+        <button onclick="cekNilai()">Cek Nilai</button>
+    </div>
+    <p>Keterangan:</p>
+    <ol>
+        <li>Jika sendirian masukkan NIM 2 = 999</li>
+        <li>Tanda (X) pada NIM berarti tidak membantu kelompok untuk mengerjakan. Nilai akan di grounded</li>
+        <li>Jika laporan nilainya 0, artinya tidak mengumpulkan</li>
+        <li>Jika ada kekeliruan konfirmasi ke Pak Rifqi langsung</li>
+    </ol>
+
+    <div class="not-found" id="notFound">
+      NIM tidak ditemukan. Pastikan NIM yang dimasukkan benar.
+    </div>
+
+    <div class="result" id="resultBox">
+      <div class="score" id="totalNilai"></div>
+
+      <div class="info-row"><strong>Kelas</strong><span id="kelas"></span></div>
+      <div class="info-row"><strong>Kelompok</strong><span id="kelompok"></span></div>
+      <div class="info-row"><strong>NIM Anggota</strong><span id="nimAnggota"></span></div>
+      <div class="info-row"><strong>Jenis Project</strong><span id="jenis"></span></div>
+      <div class="info-row"><strong>Kelengkapan Fitur</strong><span id="fitur"></span></div>
+      <div class="info-row"><strong>Inheritance</strong><span id="inheritance"></span></div>
+      <div class="info-row"><strong>Encapsulation</strong><span id="encapsulation"></span></div>
+      <div class="info-row"><strong>Abstraction</strong><span id="abstraction"></span></div>
+      <div class="info-row"><strong>Polymorphism</strong><span id="polymorphism"></span></div>
+      <div class="info-row"><strong>Kualitas Kode</strong><span id="kode"></span></div>
+      <div class="info-row"><strong>UI/UX</strong><span id="uiux"></span></div>
+      <div class="info-row"><strong>Laporan</strong><span id="laporan"></span></div>
+      <div class="info-row"><strong>Presentasi/Demo</strong><span id="presentasi"></span></div>
+      <div class="info-row"><strong>Kontribusi Anggota</strong><span id="kontribusi"></span></div>
+    </div>
+  </div>
+
+  <script>
+    let dataNilai = [];
+
+    fetch("Hasil Penilaian PBO Kelompok 2026.csv")
+      .then(response => response.text())
+      .then(csv => {
+        dataNilai = parseCSV(csv);
+      })
+      .catch(error => {
+        alert("File CSV gagal dibaca. Pastikan nama file adalah nilaiprojectPBO.csv");
+        console.error(error);
+      });
+
+    function parseCSV(csv) {
+      const lines = csv.trim().split(/\r?\n/);
+      const headers = splitCSVLine(lines[0]);
+
+      return lines.slice(1).map(line => {
+        const values = splitCSVLine(line);
+        const obj = {};
+
+        headers.forEach((header, index) => {
+          obj[header.trim()] = values[index] ? values[index].trim() : "";
+        });
+
+        return obj;
+      });
+    }
+
+    function splitCSVLine(line) {
+      const result = [];
+      let current = "";
+      let insideQuote = false;
+
+      for (let i = 0; i < line.length; i++) {
+        const char = line[i];
+
+        if (char === '"') {
+          insideQuote = !insideQuote;
+        } else if (char === "," && !insideQuote) {
+          result.push(current);
+          current = "";
+        } else {
+          current += char;
+        }
+      }
+
+      result.push(current);
+      return result;
+    }
+
+    function normalisasiNIM(value) {
+      return value.replace(/\D/g, "");
+    }
+
+    function cekNilai() {
+    const inputNIM1 = normalisasiNIM(document.getElementById("nimInput1").value);
+    const inputNIM2 = normalisasiNIM(document.getElementById("nimInput2").value);
+
+    const resultBox = document.getElementById("resultBox");
+    const notFound = document.getElementById("notFound");
+
+    resultBox.style.display = "none";
+    notFound.style.display = "none";
+
+    if (!inputNIM1 || !inputNIM2) {
+        notFound.innerText = "Silakan masukkan minimal 2 NIM anggota kelompok.";
+        notFound.style.display = "block";
+        return;
+    }
+
+    if (inputNIM1 === inputNIM2) {
+        notFound.innerText = "Dua NIM tidak boleh sama.";
+        notFound.style.display = "block";
+        return;
+    }
+
+    const mahasiswa = dataNilai.find(item => {
+        const daftarNIM = item["NIM Anggota"]
+        .split(/[,.]/)
+        .map(nim => normalisasiNIM(nim))
+        .filter(nim => nim !== "");
+
+        return daftarNIM.includes(inputNIM1) && daftarNIM.includes(inputNIM2);
+    });
+
+    if (!mahasiswa) {
+        notFound.innerText = "Kombinasi 2 NIM tidak ditemukan dalam kelompok yang sama.";
+        notFound.style.display = "block";
+        return;
+    }
+
+    document.getElementById("totalNilai").innerText = mahasiswa["Total Nilai"]
+    document.getElementById("kelas").innerText = mahasiswa["Kelas"];
+    document.getElementById("kelompok").innerText = mahasiswa["Kelompok"];
+    document.getElementById("nimAnggota").innerText = mahasiswa["NIM Anggota"];
+    document.getElementById("jenis").innerText = mahasiswa["Jenis Project"];
+    document.getElementById("fitur").innerText = mahasiswa["Kelengkapan Fitur (20)"];
+    document.getElementById("inheritance").innerText = mahasiswa["Implementasi OOP: Inheritance (10)"];
+    document.getElementById("encapsulation").innerText = mahasiswa["Implementasi OOP: Encapsulation (10)"];
+    document.getElementById("abstraction").innerText = mahasiswa["Implementasi OOP: Abstraction (10)"];
+    document.getElementById("polymorphism").innerText = mahasiswa["Implementasi OOP: Polymorphism (10)"];
+    document.getElementById("kode").innerText = mahasiswa["Kualitas Kode & Struktur Folder (10)"];
+    document.getElementById("uiux").innerText = mahasiswa["UI/UX & Kemudahan Penggunaan (10)"];
+    document.getElementById("laporan").innerText = mahasiswa["Laporan (10)"];
+    document.getElementById("presentasi").innerText = mahasiswa["Presentasi/Demo (10)"];
+    document.getElementById("kontribusi").innerText = mahasiswa["Kontribusi Anggota (10)"];
+
+    resultBox.style.display = "block";
+    }
+    
+    ["nimInput1", "nimInput2"].forEach(id => {
+        document.getElementById(id).addEventListener("keyup", function(e) {
+            if (e.key === "Enter") {
+            cekNilai();
+            }
+        }); 
+    });
+  </script>
+
+</body>
+</html>
