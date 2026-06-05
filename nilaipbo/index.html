@@ -178,7 +178,7 @@
     let dataNilai = [];
     let csvLoaded = false;
 
-    fetch("data.csv")
+    fetch("/nilaipbo/data.csv")
       .then(response => {
         if (!response.ok) {
           throw new Error("data.csv tidak ditemukan");
