@@ -67,6 +67,40 @@
       cursor: pointer;
     }
 
+    .home-widget {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: #2563eb;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-size: 26px;
+      box-shadow: 0 12px 30px rgba(37, 99, 235, 0.35);
+      z-index: 9999;
+      transition: 0.25s ease;
+    }
+    
+    .home-widget:hover {
+      background: #1d4ed8;
+      transform: translateY(-4px);
+    }
+    
+    @media (max-width: 600px) {
+      .home-widget {
+        right: 16px;
+        bottom: 16px;
+        width: 52px;
+        height: 52px;
+        font-size: 24px;
+      }
+    }
+
     button:hover {
       background: #1d4ed8;
     }
@@ -174,6 +208,10 @@
       <div class="info-row"><strong>Kontribusi Anggota</strong><span id="kontribusi"></span></div>
     </div>
   </div>
+
+  <a href="https://rifqi-data-share.vercel.app/" class="home-widget" title="Kembali ke Home">
+    🏠
+  </a>
 
   <script>
     let dataNilai = [];
