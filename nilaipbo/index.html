@@ -109,6 +109,12 @@
       margin-top: 16px;
     }
 
+    ol {
+      padding-left: 20px;
+      color: #444;
+      line-height: 1.6;
+    }
+
     @media (max-width: 600px) {
       .search-box {
         flex-direction: column;
@@ -131,16 +137,17 @@
     <p class="subtitle">Masukkan NIM untuk melihat hasil nilai project</p>
 
     <div class="search-box">
-        <input type="text" id="nimInput1" placeholder="NIM Anggota 1">
-        <input type="text" id="nimInput2" placeholder="NIM Anggota 2">
-        <button onclick="cekNilai()">Cek Nilai</button>
+      <input type="text" id="nimInput1" placeholder="NIM Anggota 1">
+      <input type="text" id="nimInput2" placeholder="NIM Anggota 2">
+      <button onclick="cekNilai()">Cek Nilai</button>
     </div>
-    <p>Keterangan:</p>
+
+    <p><strong>Keterangan:</strong></p>
     <ol>
-        <li>Jika sendirian masukkan NIM 2 = 999</li>
-        <li>Tanda (X) pada NIM berarti tidak membantu kelompok untuk mengerjakan. Nilai akan di grounded</li>
-        <li>Jika laporan nilainya 0, artinya tidak mengumpulkan</li>
-        <li>Jika ada kekeliruan konfirmasi ke Pak Rifqi langsung</li>
+      <li>Jika sendirian masukkan NIM 2 = 999</li>
+      <li>Tanda (X) pada NIM berarti tidak membantu kelompok untuk mengerjakan. Nilai akan di-grounded</li>
+      <li>Jika laporan nilainya 0, artinya tidak mengumpulkan</li>
+      <li>Jika ada kekeliruan konfirmasi ke Pak Rifqi langsung</li>
     </ol>
 
     <div class="not-found" id="notFound">
@@ -169,28 +176,46 @@
 
   <script>
     let dataNilai = [];
+    let csvLoaded = false;
 
     fetch("./data.csv")
-      .then(response => response.text())
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("data.csv tidak ditemukan");
+        }
+        return response.text();
+      })
       .then(csv => {
         dataNilai = parseCSV(csv);
+        csvLoaded = true;
+
+        console.log("Jumlah data:", dataNilai.length);
+        console.log("Baris pertama:", dataNilai[0]);
+        console.log("Header:", dataNilai[0] ? Object.keys(dataNilai[0]) : []);
       })
       .catch(error => {
-        alert("File CSV gagal dibaca. Pastikan nama file adalah data.csv");
+        tampilPesan("File CSV gagal dibaca. Pastikan file bernama data.csv dan berada satu folder dengan file HTML.");
         console.error(error);
       });
 
     function parseCSV(csv) {
-      const lines = csv.trim().split(/\r?\n/);
-      const headers = splitCSVLine(lines[0]);
+      const lines = csv
+        .trim()
+        .split(/\r?\n/)
+        .filter(line => line.trim() !== "");
+
+      if (lines.length < 2) return [];
+
+      const headers = splitCSVLine(lines[0]).map(header =>
+        header.replace(/^\uFEFF/, "").trim().toLowerCase()
+      );
 
       return lines.slice(1).map(line => {
         const values = splitCSVLine(line);
         const obj = {};
 
         headers.forEach((header, index) => {
-          const cleanHeader = header.replace(/^\uFEFF/, "").trim();
-          obj[cleanHeader] = values[index] ? values[index].trim() : "";
+          obj[header] = values[index] ? values[index].trim() : "";
         });
 
         return obj;
@@ -204,8 +229,12 @@
 
       for (let i = 0; i < line.length; i++) {
         const char = line[i];
+        const nextChar = line[i + 1];
 
-        if (char === '"') {
+        if (char === '"' && insideQuote && nextChar === '"') {
+          current += '"';
+          i++;
+        } else if (char === '"') {
           insideQuote = !insideQuote;
         } else if (char === "," && !insideQuote) {
           result.push(current);
@@ -220,71 +249,88 @@
     }
 
     function normalisasiNIM(value) {
-      return value.replace(/\D/g, "");
+      return String(value || "").replace(/\D/g, "");
+    }
+
+    function tampilPesan(pesan) {
+      const resultBox = document.getElementById("resultBox");
+      const notFound = document.getElementById("notFound");
+
+      resultBox.style.display = "none";
+      notFound.innerText = pesan;
+      notFound.style.display = "block";
+    }
+
+    function getValue(obj, key) {
+      return obj[key] || "-";
     }
 
     function cekNilai() {
-    const inputNIM1 = normalisasiNIM(document.getElementById("nimInput1").value);
-    const inputNIM2 = normalisasiNIM(document.getElementById("nimInput2").value);
+      const inputNIM1 = normalisasiNIM(document.getElementById("nimInput1").value);
+      const inputNIM2 = normalisasiNIM(document.getElementById("nimInput2").value);
 
-    const resultBox = document.getElementById("resultBox");
-    const notFound = document.getElementById("notFound");
+      const resultBox = document.getElementById("resultBox");
+      const notFound = document.getElementById("notFound");
 
-    resultBox.style.display = "none";
-    notFound.style.display = "none";
+      resultBox.style.display = "none";
+      notFound.style.display = "none";
 
-    if (!inputNIM1 || !inputNIM2) {
-        notFound.innerText = "Silakan masukkan minimal 2 NIM anggota kelompok.";
-        notFound.style.display = "block";
+      if (!csvLoaded) {
+        tampilPesan("Data nilai belum siap atau file CSV gagal dimuat.");
         return;
-    }
+      }
 
-    if (inputNIM1 === inputNIM2) {
-        notFound.innerText = "Dua NIM tidak boleh sama.";
-        notFound.style.display = "block";
+      if (!inputNIM1 || !inputNIM2) {
+        tampilPesan("Silakan masukkan 2 NIM anggota kelompok.");
         return;
-    }
+      }
 
-    const mahasiswa = dataNilai.find(item => {
-      const daftarNIM = item["nim"]
-        .split(/[,.]/)
-        .map(nim => normalisasiNIM(nim))
-        .filter(nim => nim !== "");
-    
-      return daftarNIM.includes(inputNIM1) && daftarNIM.includes(inputNIM2);
-    });
-
-    if (!mahasiswa) {
-        notFound.innerText = "Kombinasi 2 NIM tidak ditemukan dalam kelompok yang sama.";
-        notFound.style.display = "block";
+      if (inputNIM1 === inputNIM2) {
+        tampilPesan("Dua NIM tidak boleh sama.");
         return;
+      }
+
+      const mahasiswa = dataNilai.find(item => {
+        const nimData = item["nim"] || "";
+
+        const daftarNIM = nimData
+          .split(/[,.]/)
+          .map(nim => normalisasiNIM(nim))
+          .filter(nim => nim !== "");
+
+        return daftarNIM.includes(inputNIM1) && daftarNIM.includes(inputNIM2);
+      });
+
+      if (!mahasiswa) {
+        tampilPesan("Kombinasi 2 NIM tidak ditemukan dalam kelompok yang sama.");
+        return;
+      }
+
+      document.getElementById("totalNilai").innerText = getValue(mahasiswa, "tot") + " Poin";
+      document.getElementById("kelas").innerText = getValue(mahasiswa, "kelas");
+      document.getElementById("kelompok").innerText = getValue(mahasiswa, "kelompok");
+      document.getElementById("nimAnggota").innerText = getValue(mahasiswa, "nim");
+      document.getElementById("jenis").innerText = getValue(mahasiswa, "jenis");
+      document.getElementById("fitur").innerText = getValue(mahasiswa, "fitur");
+      document.getElementById("inheritance").innerText = getValue(mahasiswa, "in");
+      document.getElementById("encapsulation").innerText = getValue(mahasiswa, "enc");
+      document.getElementById("abstraction").innerText = getValue(mahasiswa, "abs");
+      document.getElementById("polymorphism").innerText = getValue(mahasiswa, "pol");
+      document.getElementById("kode").innerText = getValue(mahasiswa, "folder");
+      document.getElementById("uiux").innerText = getValue(mahasiswa, "ui");
+      document.getElementById("laporan").innerText = getValue(mahasiswa, "lap");
+      document.getElementById("presentasi").innerText = getValue(mahasiswa, "demo");
+      document.getElementById("kontribusi").innerText = getValue(mahasiswa, "kon");
+
+      resultBox.style.display = "block";
     }
 
-    document.getElementById("totalNilai").innerText = mahasiswa["tot"] + " Poin";
-    document.getElementById("kelas").innerText = mahasiswa["kelas"];
-    document.getElementById("kelompok").innerText = mahasiswa["kelompok"];
-    document.getElementById("nimAnggota").innerText = mahasiswa["nim"];
-    document.getElementById("jenis").innerText = mahasiswa["jenis"];
-    document.getElementById("fitur").innerText = mahasiswa["fitur"];
-    document.getElementById("inheritance").innerText = mahasiswa["in"];
-    document.getElementById("encapsulation").innerText = mahasiswa["enc"];
-    document.getElementById("abstraction").innerText = mahasiswa["abs"];
-    document.getElementById("polymorphism").innerText = mahasiswa["pol"];
-    document.getElementById("kode").innerText = mahasiswa["folder"];
-    document.getElementById("uiux").innerText = mahasiswa["ui"];
-    document.getElementById("laporan").innerText = mahasiswa["lap"];
-    document.getElementById("presentasi").innerText = mahasiswa["demo"];
-    document.getElementById("kontribusi").innerText = mahasiswa["kon"];
-
-    resultBox.style.display = "block";
-    }
-    
     ["nimInput1", "nimInput2"].forEach(id => {
-        document.getElementById(id).addEventListener("keyup", function(e) {
-            if (e.key === "Enter") {
-            cekNilai();
-            }
-        }); 
+      document.getElementById(id).addEventListener("keyup", function(e) {
+        if (e.key === "Enter") {
+          cekNilai();
+        }
+      });
     });
   </script>
 
