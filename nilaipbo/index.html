@@ -189,7 +189,8 @@
         const obj = {};
 
         headers.forEach((header, index) => {
-          obj[header.trim()] = values[index] ? values[index].trim() : "";
+          const cleanHeader = header.replace(/^\uFEFF/, "").trim();
+          obj[cleanHeader] = values[index] ? values[index].trim() : "";
         });
 
         return obj;
@@ -245,12 +246,12 @@
     }
 
     const mahasiswa = dataNilai.find(item => {
-        const daftarNIM = item["NIM Anggota"]
+      const daftarNIM = item["nim"]
         .split(/[,.]/)
         .map(nim => normalisasiNIM(nim))
         .filter(nim => nim !== "");
-
-        return daftarNIM.includes(inputNIM1) && daftarNIM.includes(inputNIM2);
+    
+      return daftarNIM.includes(inputNIM1) && daftarNIM.includes(inputNIM2);
     });
 
     if (!mahasiswa) {
@@ -259,21 +260,21 @@
         return;
     }
 
-    document.getElementById("totalNilai").innerText = mahasiswa["Total Nilai"]
-    document.getElementById("kelas").innerText = mahasiswa["Kelas"];
-    document.getElementById("kelompok").innerText = mahasiswa["Kelompok"];
-    document.getElementById("nimAnggota").innerText = mahasiswa["NIM Anggota"];
-    document.getElementById("jenis").innerText = mahasiswa["Jenis Project"];
-    document.getElementById("fitur").innerText = mahasiswa["Kelengkapan Fitur (20)"];
-    document.getElementById("inheritance").innerText = mahasiswa["Implementasi OOP: Inheritance (10)"];
-    document.getElementById("encapsulation").innerText = mahasiswa["Implementasi OOP: Encapsulation (10)"];
-    document.getElementById("abstraction").innerText = mahasiswa["Implementasi OOP: Abstraction (10)"];
-    document.getElementById("polymorphism").innerText = mahasiswa["Implementasi OOP: Polymorphism (10)"];
-    document.getElementById("kode").innerText = mahasiswa["Kualitas Kode & Struktur Folder (10)"];
-    document.getElementById("uiux").innerText = mahasiswa["UI/UX & Kemudahan Penggunaan (10)"];
-    document.getElementById("laporan").innerText = mahasiswa["Laporan (10)"];
-    document.getElementById("presentasi").innerText = mahasiswa["Presentasi/Demo (10)"];
-    document.getElementById("kontribusi").innerText = mahasiswa["Kontribusi Anggota (10)"];
+    document.getElementById("totalNilai").innerText = mahasiswa["tot"] + " Poin";
+    document.getElementById("kelas").innerText = mahasiswa["kelas"];
+    document.getElementById("kelompok").innerText = mahasiswa["kelompok"];
+    document.getElementById("nimAnggota").innerText = mahasiswa["nim"];
+    document.getElementById("jenis").innerText = mahasiswa["jenis"];
+    document.getElementById("fitur").innerText = mahasiswa["fitur"];
+    document.getElementById("inheritance").innerText = mahasiswa["in"];
+    document.getElementById("encapsulation").innerText = mahasiswa["enc"];
+    document.getElementById("abstraction").innerText = mahasiswa["abs"];
+    document.getElementById("polymorphism").innerText = mahasiswa["pol"];
+    document.getElementById("kode").innerText = mahasiswa["folder"];
+    document.getElementById("uiux").innerText = mahasiswa["ui"];
+    document.getElementById("laporan").innerText = mahasiswa["lap"];
+    document.getElementById("presentasi").innerText = mahasiswa["demo"];
+    document.getElementById("kontribusi").innerText = mahasiswa["kon"];
 
     resultBox.style.display = "block";
     }
