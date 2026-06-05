@@ -306,7 +306,9 @@
         return;
       }
 
-      document.getElementById("totalNilai").innerText = getValue(mahasiswa, "tot") + " Poin";
+      document.getElementById("totalNilai").innerText =
+      parseFloat(getValue(mahasiswa, "tot")).toFixed(2) + " Poin";
+      
       document.getElementById("kelas").innerText = getValue(mahasiswa, "kelas");
       document.getElementById("kelompok").innerText = getValue(mahasiswa, "kelompok");
       document.getElementById("nimAnggota").innerText = getValue(mahasiswa, "nim");
