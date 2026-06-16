@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cek Nilai Akhir Mahasiswa</title>
+  <link href="/nilaipbo/logo-rifqi.png" rel="icon">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #dbeafe, #fce7f3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 760px;
+      background: white;
+      border-radius: 22px;
+      padding: 28px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.12);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 8px;
+      color: #1e3a8a;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 24px;
+    }
+
+    .search-box {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    input {
+      flex: 1;
+      padding: 14px;
+      border-radius: 12px;
+      border: 1px solid #ddd;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 14px 20px;
+      border: none;
+      border-radius: 12px;
+      background: #2563eb;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #1d4ed8;
+    }
+
+    .result {
+      display: none;
+      margin-top: 20px;
+      border-radius: 18px;
+      background: #f8fafc;
+      padding: 20px;
+      border: 1px solid #e5e7eb;
+    }
+
+    .skor-label {
+      text-align: center;
+      font-size: 18px;
+      color: #64748b;
+      margin-bottom: 4px;
+      font-weight: bold;
+    }
+
+    .score {
+      text-align: center;
+      font-size: 52px;
+      font-weight: bold;
+      color: #16a34a;
+      margin: 5px 0 22px;
+    }
+
+    .info-row {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 10px;
+      padding: 9px 0;
+      border-bottom: 1px dashed #ddd;
+    }
+
+    .info-row strong {
+      color: #1e40af;
+    }
+
+    .not-found {
+      display: none;
+      background: #fee2e2;
+      color: #991b1b;
+      padding: 14px;
+      border-radius: 12px;
+      text-align: center;
+      margin-top: 16px;
+    }
+
+    .red {
+      color: #dc2626;
+      font-weight: bold;
+    }
+
+    @media (max-width: 600px) {
+      .search-box {
+        flex-direction: column;
+      }
+
+      .info-row {
+        grid-template-columns: 1fr;
+      }
+
+      .score {
+        font-size: 42px;
+      }
+    }
+
+    .home-widget {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: #2563eb;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-size: 26px;
+      box-shadow: 0 12px 30px rgba(37, 99, 235, 0.35);
+      z-index: 9999;
+      transition: 0.25s ease;
+    }
+    
+    .home-widget:hover {
+      background: #1d4ed8;
+      transform: translateY(-4px);
+    }
+    
+    @media (max-width: 600px) {
+      .home-widget {
+        right: 16px;
+        bottom: 16px;
+        width: 52px;
+        height: 52px;
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <h1>Cek Nilai Akhir Mahasiswa</h1>
+    <p class="subtitle">Masukkan Nama dan NIM untuk melihat hasil nilai</p>
+
+    <div class="search-box">
+      <input type="text" id="namaInput" placeholder="Nama Mahasiswa">
+      <input type="text" id="nimInput" placeholder="NIM Mahasiswa">
+      <button onclick="cekNilai()">Cek Nilai</button>
+    </div>
+
+    <div class="not-found" id="notFound">
+      Data tidak ditemukan. Pastikan Nama dan NIM yang dimasukkan benar.
+    </div>
+
+    <div class="result" id="resultBox">
+      <div class="skor-label">Skor</div>
+      <div class="score" id="skor"></div>
+
+      <div class="info-row"><strong>Nama</strong><span id="nama"></span></div>
+      <div class="info-row"><strong>NIM</strong><span id="nim"></span></div>
+      <div class="info-row"><strong>Alpa Mahasiswa</strong><span id="th"></span></div>
+      <div class="info-row"><strong>Poin Kehadiran</strong><span id="p1"></span></div>
+      <div class="info-row"><strong>Total Tidak Mengumpulkan Tugas</strong><span id="tt"></span></div>
+      <div class="info-row"><strong>Poin 80% Tugas</strong><span id="p2"></span></div>
+      <div class="info-row"><strong>Poin 100% Tugas</strong><span id="p3"></span></div>
+      <div class="info-row"><strong>Nilai Project Mandiri</strong><span id="av"></span></div>
+      <div class="info-row"><strong>Poin Project Mandiri</strong><span id="pm"></span></div>
+      <div class="info-row"><strong>Nilai Project Kelompok</strong><span id="pt"></span></div>
+      <div class="info-row"><strong>Poin Project Kelompok</strong><span id="pa"></span></div>
+      <div class="info-row"><strong>Total Poin</strong><span id="total"></span></div>
+    </div>
+  </div>
+
+  <a href="https://rifqi-data-share.vercel.app/" class="home-widget" title="Kembali ke Home">
+    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" viewBox="0 0 16 16">
+      <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 2 8h1v6a1 1 0 0 0 1 1h3v-4h2v4h3a1 1 0 0 0 1-1V8h1a.5.5 0 0 0 .354-.854z"/>
+    </svg>
+  </a>
+
+  <script>
+    let dataNilai = [];
+
+    fetch("hasilpenilaianakhir.csv")
+      .then(response => response.text())
+      .then(csv => {
+        dataNilai = parseCSV(csv);
+      })
+      .catch(error => {
+        alert("File CSV gagal dibaca. Pastikan nama file adalah hasilpenilaianakhir.csv");
+        console.error(error);
+      });
+
+    function parseCSV(csv) {
+      const lines = csv.trim().split(/\r?\n/);
+      const headers = splitCSVLine(lines[0]);
+
+      return lines.slice(1).map(line => {
+        const values = splitCSVLine(line);
+        const obj = {};
+
+        headers.forEach((header, index) => {
+          obj[header.trim()] = values[index] ? values[index].trim() : "";
+        });
+
+        return obj;
+      });
+    }
+
+    function splitCSVLine(line) {
+      const result = [];
+      let current = "";
+      let insideQuote = false;
+
+      for (let i = 0; i < line.length; i++) {
+        const char = line[i];
+
+        if (char === '"') {
+          insideQuote = !insideQuote;
+        } else if (char === "," && !insideQuote) {
+          result.push(current);
+          current = "";
+        } else {
+          current += char;
+        }
+      }
+
+      result.push(current);
+      return result;
+    }
+
+    function normalisasiNIM(value) {
+      return value.replace(/\D/g, "");
+    }
+
+    function normalisasiNama(value) {
+      return value.toLowerCase().trim().replace(/\s+/g, " ");
+    }
+
+    function tampilkanError(pesan) {
+      const resultBox = document.getElementById("resultBox");
+      const notFound = document.getElementById("notFound");
+
+      resultBox.style.display = "none";
+      notFound.innerText = pesan;
+      notFound.style.display = "block";
+    }
+
+    function cekNilai() {
+      const inputNama = normalisasiNama(document.getElementById("namaInput").value);
+      const inputNIM = normalisasiNIM(document.getElementById("nimInput").value);
+
+      const resultBox = document.getElementById("resultBox");
+      const notFound = document.getElementById("notFound");
+
+      resultBox.style.display = "none";
+      notFound.style.display = "none";
+
+      if (!inputNama || !inputNIM) {
+        tampilkanError("Silakan masukkan Nama dan NIM mahasiswa.");
+        return;
+      }
+
+      const mahasiswa = dataNilai.find(item => {
+        const namaCSV = normalisasiNama(item["Nama"] || "");
+        const nimCSV = normalisasiNIM(item["NIM"] || "");
+
+        return namaCSV === inputNama && nimCSV === inputNIM;
+      });
+
+      if (!mahasiswa) {
+        tampilkanError("Data tidak ditemukan. Pastikan Nama dan NIM yang dimasukkan benar.");
+        return;
+      }
+
+      document.getElementById("skor").innerText = mahasiswa["Skor"];
+      document.getElementById("nama").innerText = mahasiswa["Nama"];
+      document.getElementById("nim").innerText = mahasiswa["NIM"];
+      document.getElementById("th").innerText = mahasiswa["TH"];
+      document.getElementById("p1").innerText = `${mahasiswa["P1"]} Poin`;
+      document.getElementById("tt").innerText = mahasiswa["TT"];
+      document.getElementById("p2").innerText = `${mahasiswa["P2"]} Poin`;
+      document.getElementById("p3").innerText = `${mahasiswa["P3"]} Poin`;
+      document.getElementById("av").innerText = mahasiswa["AV"];
+
+      const pmElement = document.getElementById("pm");
+      pmElement.innerText = mahasiswa["PM"];
+      pmElement.classList.remove("red");
+
+      const nilaiPM = parseFloat(mahasiswa["PM"]);
+
+      pmElement.innerText = `${nilaiPM} Poin`;
+
+      if (!isNaN(nilaiPM) && nilaiPM < 0) {
+        pmElement.classList.add("red");
+      }
+
+      document.getElementById("pt").innerText = mahasiswa["PT"];
+      document.getElementById("pa").innerText = `${mahasiswa["PA"]} Poin`;
+      document.getElementById("total").innerText = `${mahasiswa["Total"]}/8 Poin`;
+
+      resultBox.style.display = "block";
+    }
+
+    ["namaInput", "nimInput"].forEach(id => {
+      document.getElementById(id).addEventListener("keyup", function(e) {
+        if (e.key === "Enter") {
+          cekNilai();
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
