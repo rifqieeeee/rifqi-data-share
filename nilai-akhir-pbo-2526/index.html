@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Cek Nilai Akhir Mahasiswa</title>
-  <link href="/nilaipbo/logo-rifqi.png" rel="icon">
+  <link href="/logo-rifqi.png" rel="icon">
 
   <style>
     * {
@@ -217,7 +217,7 @@
   <script>
     let dataNilai = [];
 
-    fetch("hasilpenilaianakhir.csv")
+    fetch("/nilai-akhir-pbo-2526/hasilpenilaianakhir.csv")
       .then(response => response.text())
       .then(csv => {
         dataNilai = parseCSV(csv);
