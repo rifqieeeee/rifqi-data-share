@@ -195,14 +195,10 @@
 
       <div class="info-row"><strong>Nama</strong><span id="nama"></span></div>
       <div class="info-row"><strong>NIM</strong><span id="nim"></span></div>
-      <div class="info-row"><strong>Alpa Mahasiswa</strong><span id="th"></span></div>
       <div class="info-row"><strong>Poin Kehadiran</strong><span id="p1"></span></div>
-      <div class="info-row"><strong>Total Tidak Mengumpulkan Tugas</strong><span id="tt"></span></div>
       <div class="info-row"><strong>Poin 80% Tugas</strong><span id="p2"></span></div>
       <div class="info-row"><strong>Poin 100% Tugas</strong><span id="p3"></span></div>
-      <div class="info-row"><strong>Nilai Project Mandiri</strong><span id="av"></span></div>
       <div class="info-row"><strong>Poin Project Mandiri</strong><span id="pm"></span></div>
-      <div class="info-row"><strong>Nilai Project Kelompok</strong><span id="pt"></span></div>
       <div class="info-row"><strong>Poin Project Kelompok</strong><span id="pa"></span></div>
       <div class="info-row"><strong>Total Poin</strong><span id="total"></span></div>
     </div>
@@ -312,12 +308,9 @@
       document.getElementById("skor").innerText = mahasiswa["Skor"];
       document.getElementById("nama").innerText = mahasiswa["Nama"];
       document.getElementById("nim").innerText = mahasiswa["NIM"];
-      document.getElementById("th").innerText = mahasiswa["TH"];
       document.getElementById("p1").innerText = `${mahasiswa["P1"]} Poin`;
-      document.getElementById("tt").innerText = mahasiswa["TT"];
       document.getElementById("p2").innerText = `${mahasiswa["P2"]} Poin`;
       document.getElementById("p3").innerText = `${mahasiswa["P3"]} Poin`;
-      document.getElementById("av").innerText = mahasiswa["AV"];
 
       const pmElement = document.getElementById("pm");
       pmElement.innerText = mahasiswa["PM"];
@@ -331,7 +324,6 @@
         pmElement.classList.add("red");
       }
 
-      document.getElementById("pt").innerText = mahasiswa["PT"];
       document.getElementById("pa").innerText = `${mahasiswa["PA"]} Poin`;
       document.getElementById("total").innerText = `${mahasiswa["Total"]}/8 Poin`;
 
