@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Daftar Ukuran Baju ICoGESF</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #dbeafe, #fce7f3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 820px;
+      background: white;
+      border-radius: 22px;
+      padding: 28px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.12);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 8px;
+      color: #1e3a8a;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 24px;
+    }
+
+    .table-wrapper {
+      overflow-x: auto;
+      border-radius: 16px;
+      border: 1px solid #e5e7eb;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #f8fafc;
+    }
+
+    thead {
+      background: #2563eb;
+      color: white;
+    }
+
+    th, td {
+      padding: 14px 16px;
+      text-align: left;
+      border-bottom: 1px solid #e5e7eb;
+      font-size: 15px;
+    }
+
+    th:first-child,
+    td:first-child {
+      text-align: center;
+      width: 70px;
+    }
+
+    tbody tr:hover {
+      background: #eef2ff;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: #dbeafe;
+      color: #1e40af;
+      font-weight: bold;
+      min-width: 56px;
+      text-align: center;
+    }
+
+    .not-found {
+      display: none;
+      background: #fee2e2;
+      color: #991b1b;
+      padding: 14px;
+      border-radius: 12px;
+      text-align: center;
+      margin-top: 16px;
+    }
+
+    .home-widget {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: #2563eb;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-size: 26px;
+      box-shadow: 0 12px 30px rgba(37, 99, 235, 0.35);
+      z-index: 9999;
+      transition: 0.25s ease;
+    }
+
+    .home-widget:hover {
+      background: #1d4ed8;
+      transform: translateY(-4px);
+    }
+
+    @media (max-width: 600px) {
+      body {
+        align-items: flex-start;
+      }
+
+      .container {
+        padding: 22px;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+
+      th, td {
+        padding: 12px;
+        font-size: 14px;
+      }
+
+      .home-widget {
+        right: 16px;
+        bottom: 16px;
+        width: 52px;
+        height: 52px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Daftar Ukuran Baju ICoGESF</h1>
+    <p class="subtitle">Data peserta dan pilihan ukuran baju</p>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>No</th>
+            <th>Nama Lengkap</th>
+            <th>Ukuran Baju</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+
+    <div class="not-found" id="notFound">
+      File CSV gagal dibaca. Pastikan file bernama baju-icogesf.csv dan berada satu folder dengan file HTML.
+    </div>
+  </div>
+
+  <a href="https://rifqi-data-share.vercel.app/" class="home-widget" title="Kembali ke Home">
+    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" viewBox="0 0 16 16">
+      <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 2 8h1v6a1 1 0 0 0 1 1h3v-4h2v4h3a1 1 0 0 0 1-1V8h1a.5.5 0 0 0 .354-.854z"/>
+    </svg>
+  </a>
+
+  <script>
+    fetch("baju-icogesf.csv")
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("CSV tidak ditemukan");
+        }
+        return response.text();
+      })
+      .then(csv => {
+        const data = parseCSV(csv);
+        tampilkanTabel(data);
+      })
+      .catch(error => {
+        document.getElementById("notFound").style.display = "block";
+        console.error(error);
+      });
+
+    function parseCSV(csv) {
+      const lines = csv
+        .trim()
+        .split(/\r?\n/)
+        .filter(line => line.trim() !== "");
+
+      const headers = splitCSVLine(lines[0]).map(header =>
+        header.replace(/^\uFEFF/, "").trim()
+      );
+
+      return lines.slice(1).map(line => {
+        const values = splitCSVLine(line);
+        const obj = {};
+
+        headers.forEach((header, index) => {
+          obj[header] = values[index] ? values[index].trim() : "";
+        });
+
+        return obj;
+      });
+    }
+
+    function splitCSVLine(line) {
+      const result = [];
+      let current = "";
+      let insideQuote = false;
+
+      for (let i = 0; i < line.length; i++) {
+        const char = line[i];
+        const nextChar = line[i + 1];
+
+        if (char === '"' && insideQuote && nextChar === '"') {
+          current += '"';
+          i++;
+        } else if (char === '"') {
+          insideQuote = !insideQuote;
+        } else if (char === "," && !insideQuote) {
+          result.push(current);
+          current = "";
+        } else {
+          current += char;
+        }
+      }
+
+      result.push(current);
+      return result;
+    }
+
+    function tampilkanTabel(data) {
+      const tableBody = document.getElementById("tableBody");
+      tableBody.innerHTML = "";
+
+      data.forEach((item, index) => {
+        const nama = item["Nama Lengkap"] || "-";
+        const ukuran = item["Pilihan Ukuran Baju"] || "-";
+
+        const row = `
+          <tr>
+            <td>${index + 1}</td>
+            <td>${nama}</td>
+            <td><span class="badge">${ukuran}</span></td>
+          </tr>
+        `;
+
+        tableBody.innerHTML += row;
+      });
+    }
+  </script>
+
+</body>
+</html>
