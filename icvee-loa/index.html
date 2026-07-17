@@ -265,7 +265,7 @@
       setMessage('Checking manuscript data...');
 
       try {
-        const response = await fetch(`data.csv?v=${Date.now()}`, { cache: 'no-store' });
+        const response = await fetch(`/icvee-loa/data.csv?v=${Date.now()}`, { cache: 'no-store' });
         if (!response.ok) throw new Error('Unable to load data.csv');
 
         const records = parseCSV(await response.text());
