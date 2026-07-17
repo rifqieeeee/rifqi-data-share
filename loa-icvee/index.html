@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Letter of Acceptance - ICVEE 2026</title>
+
+  <style>
+    :root {
+      --page-width: 210mm;
+      --page-height: 297mm;
+      --page-padding-top: 16mm;
+      --page-padding-right: 18mm;
+      --page-padding-bottom: 16mm;
+      --page-padding-left: 18mm;
+      --primary-blue: #233f84;
+      --secondary-blue: #3f63a7;
+      --light-blue: #eef3fb;
+      --text-color: #222222;
+      --muted-color: #666666;
+      --border-color: #b9c4d8;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      background: #e9edf3;
+      color: var(--text-color);
+      font-family: "Times New Roman", Times, serif;
+    }
+
+    body {
+      padding: 24px;
+    }
+
+    .page {
+      position: relative;
+      width: var(--page-width);
+      min-height: var(--page-height);
+      margin: 0 auto;
+      padding: var(--page-padding-top) var(--page-padding-right)
+        var(--page-padding-bottom) var(--page-padding-left);
+      background: #ffffff;
+      box-shadow: 0 8px 26px rgba(0, 0, 0, 0.14);
+      overflow: hidden;
+    }
+
+    .top-accent {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 8px;
+      background: linear-gradient(
+        90deg,
+        var(--primary-blue) 0 72%,
+        var(--secondary-blue) 72% 100%
+      );
+    }
+
+    .corner-shape {
+      position: absolute;
+      top: 8px;
+      right: 0;
+      width: 72mm;
+      height: 18mm;
+      background: var(--light-blue);
+      clip-path: polygon(28% 0, 100% 0, 100% 100%, 0 100%);
+      z-index: 0;
+    }
+
+    .header {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 31mm 1fr 31mm;
+      align-items: center;
+      column-gap: 8mm;
+      padding-top: 2mm;
+    }
+
+    .logo-placeholder {
+      width: 29mm;
+      height: 29mm;
+      border: 1.4px dashed #8e9ab0;
+      border-radius: 4px;
+      background: #f8fafc;
+      color: #7a8495;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 10px;
+      line-height: 1.35;
+      letter-spacing: 0.4px;
+      padding: 4px;
+    }
+
+    .logo-placeholder.right {
+      justify-self: end;
+    }
+
+    .conference-block {
+      text-align: center;
+    }
+
+    .conference-title {
+      margin: 0;
+      color: var(--primary-blue);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 16px;
+      font-weight: 800;
+      line-height: 1.22;
+      letter-spacing: 0.35px;
+      text-transform: uppercase;
+    }
+
+    .conference-meta {
+      margin-top: 7px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 10.5px;
+      line-height: 1.45;
+      color: #333333;
+    }
+
+    .divider {
+      height: 1.4px;
+      margin: 8mm 0 6mm;
+      background: linear-gradient(
+        90deg,
+        var(--primary-blue),
+        var(--secondary-blue),
+        transparent
+      );
+    }
+
+    .date {
+      margin-bottom: 6mm;
+      font-size: 12pt;
+      text-align: right;
+    }
+
+    .recipient {
+      margin-bottom: 6mm;
+      font-size: 12pt;
+      /* line-height: 1.5; */
+    }
+
+    .subject-line {
+      text-align: justify;
+      margin: 0 0 6mm;
+      font-size: 12pt;
+    }
+
+    .subject-line strong {
+      display: inline-block;
+      min-width: 22mm;
+    }
+
+    .body-text {
+      font-size: 12pt;
+      /* line-height: 1.48; */
+      text-align: justify;
+    }
+
+    .body-text p {
+      margin: 0 0 4.5mm;
+    }
+
+    .manuscript-box {
+      width: 100%;
+      margin: 5mm 0 6mm;
+      border-collapse: collapse;
+      font-size: 12pt;
+    }
+
+    .manuscript-box td {
+      vertical-align: top;
+      padding: 1.2mm 0;
+    }
+
+    .manuscript-box td:first-child {
+      width: 33mm;
+      font-weight: 700;
+    }
+
+    .manuscript-box td:nth-child(2) {
+      width: 5mm;
+      text-align: center;
+    }
+
+    .signature-section {
+      margin-top: 7mm;
+      width: 73mm;
+      margin-left: auto;
+      text-align: left;
+      font-size: 12pt;
+      line-height: 1.45;
+    }
+
+    .signature-space {
+      height: 24mm;
+      display: flex;
+      align-items: center;
+    }
+
+    .signature-placeholder {
+      width: 46mm;
+      height: 17mm;
+      border: 1px dashed #b0b8c6;
+      border-radius: 3px;
+      color: #8d96a5;
+      background: #fafbfc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 9px;
+      letter-spacing: 0.3px;
+    }
+
+    .signer-name {
+      font-weight: 700;
+      text-decoration: underline;
+    }
+
+    .footer {
+      position: absolute;
+      left: var(--page-padding-left);
+      right: var(--page-padding-right);
+      bottom: 9mm;
+      border-top: 1px solid var(--border-color);
+      padding-top: 3mm;
+      text-align: center;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 8.5px;
+      line-height: 1.4;
+      color: var(--muted-color);
+    }
+
+    .footer strong {
+      color: var(--primary-blue);
+    }
+
+    .logo-image {
+        width: 29mm;
+        height: 29mm;
+        object-fit: contain;
+    }
+
+    @media screen and (max-width: 900px) {
+      body {
+        padding: 0;
+        background: #ffffff;
+      }
+
+      .page {
+        width: 100%;
+        min-height: auto;
+        box-shadow: none;
+      }
+    }
+
+    @media print {
+      @page {
+        size: A4 portrait;
+        margin: 0;
+      }
+
+      html,
+      body {
+        width: 210mm;
+        height: 297mm;
+        background: #ffffff;
+      }
+
+      body {
+        padding: 0;
+      }
+
+      .page {
+        width: 210mm;
+        min-height: 297mm;
+        margin: 0;
+        box-shadow: none;
+        page-break-after: avoid;
+      }
+
+      .logo-placeholder,
+      .signature-placeholder {
+        background: #ffffff;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+    <div class="top-accent"></div>
+    <div class="corner-shape"></div>
+
+    <header class="header">
+      <div>
+        <img class="logo-image" src="icvee.png" alt="ICVEE Logo" />
+      </div>
+
+      <div class="conference-block">
+        <h1 class="conference-title">
+          2026 Ninth International Conference on Vocational Education and
+          Electrical Engineering (ICVEE)
+        </h1>
+
+        <div class="conference-meta">
+          Faculty of Medicine Building, State University of Surabaya,<br />
+          Surabaya, Indonesia<br />
+          <strong>17-18 September 2026</strong>
+        </div>
+      </div>
+
+      <div class="right">
+        <img class="logo-image" src="unesa.jpg" alt="UNESA Logo" />
+      </div>
+    </header>
+
+    <div class="divider"></div>
+
+    <section class="date">
+      13 August 2026
+    </section>
+
+    <!-- <p class="subject-line">
+      <strong>Re:</strong> Letter of Acceptance
+    </p> -->
+
+    <section class="subject-line">
+      <strong>To:</strong><br>Alfan Andika (Telkom University, Indonesia), Wahyu Pamungkas (Telkom University, Indonesia), Khoirun Ni’amah(Telkom University, Indonesia)
+    </section>
+
+    <section class="body-text">
+      <p>To whom it may concern,</p>
+
+      <p>
+        We are pleased to inform you that your manuscript with the following
+        details:
+      </p>
+
+      <table class="manuscript-box" aria-label="Manuscript details">
+        <tr>
+          <td>Manuscript ID</td>
+          <td>:</td>
+          <td>1571169971</td>
+        </tr>
+
+        <tr>
+          <td>Title</td>
+          <td>:</td>
+          <td>
+            Software Defined Radio-Based Approach for Decoding the LoRa Signals
+            in IoT Application
+          </td>
+        </tr>
+      </table>
+
+      <p>
+        has been accepted for presentation at the 2026 Ninth International
+        Conference on Vocational Education and Electrical Engineering (ICVEE)
+        and will be included in the IEEE Xplore Digital Library proceedings,
+        subject to meeting the IEEE guidelines. Authors of the manuscript are
+        invited to present their work on 17-18 September 2026 at Surabaya, Indonesia,
+        or online.
+      </p>
+
+      <p>
+        Please be advised that we adopt the IEEE no-show policy for
+        non-presented papers. IEEE reserves the right to exclude a paper from
+        distribution after the conference, including the IEEE Xplore Digital
+        Library, if the paper is not presented by the author at the conference.
+      </p>
+
+      <p>
+        We remind you to check the latest information on our website at
+        <strong>https://icvee.conference.unesa.ac.id/</strong>, and to stay in
+        touch with the committee via email at
+        <strong>icvee@unesa.ac.id</strong>.
+      </p>
+
+      <p>
+        Thank you again for participating in ICVEE 2026. We look forward to
+        welcoming you to the event.
+      </p>
+    </section>
+
+    <section class="signature-section">
+      <div>Yours sincerely,</div>
+
+      <div class="signature-space">
+          <img class="logo-image" src="TTD Rifqi.png" alt="TTD Logo" />
+      </div>
+
+      <div class="signer-name">
+         Prof. Dr. Nurhayati, S.T., M.T.
+      </div>
+
+      <div>General Chair</div>
+    </section>
+
+    <footer class="footer">
+      <strong>
+        2026 Ninth International Conference on Vocational Education and
+        Electrical Engineering
+      </strong>
+      <br />
+      State University of Surabaya · Surabaya, Indonesia
+    </footer>
+  </main>
+</body>
+</html>
