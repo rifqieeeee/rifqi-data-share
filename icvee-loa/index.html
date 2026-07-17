@@ -284,7 +284,7 @@
         }
 
         setMessage('Manuscript verified. Opening the LOA...', 'success');
-        window.location.href = `loa.html?id=${encodeURIComponent(manuscriptId)}`;
+        window.location.href = `/icvee-loa/loa.html?id=${encodeURIComponent(manuscriptId)}`;
       } catch (error) {
         console.error(error);
         setMessage('The manuscript database could not be loaded. Please try again.', 'error');
