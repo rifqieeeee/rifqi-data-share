@@ -286,7 +286,7 @@
       showMessage('Checking the JEISBI acceptance database...', 'info');
 
       try {
-        const response = await fetch(`data.csv?v=${Date.now()}`, { cache: 'no-store' });
+        const response = await fetch(`/jeisbi-loa/data.csv?v=${Date.now()}`, { cache: 'no-store' });
         if (!response.ok) throw new Error('data.csv could not be loaded.');
 
         const records = parseCSV(await response.text());
