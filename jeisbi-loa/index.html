@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>JEISBI LOA Verification</title>
+  <style>
+    :root {
+      --blue: #4169a8;
+      --blue-dark: #2f4f82;
+      --yellow: #f5b84b;
+      --text: #252525;
+      --muted: #6b7280;
+      --border: #d7deea;
+      --surface: #ffffff;
+      --background: #eef2f7;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      min-height: 100%;
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(65, 105, 168, .16), transparent 34rem),
+        linear-gradient(135deg, #f7f9fc, var(--background));
+    }
+
+    body {
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+
+    .card {
+      width: min(100%, 520px);
+      overflow: hidden;
+      border: 1px solid rgba(65, 105, 168, .12);
+      border-radius: 22px;
+      background: var(--surface);
+      box-shadow: 0 22px 70px rgba(35, 60, 105, .16);
+    }
+
+    .top-bar {
+      height: 8px;
+      background: linear-gradient(90deg, var(--blue), var(--yellow));
+    }
+
+    .content { padding: 38px 38px 34px; }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .brand img {
+      width: 68px;
+      height: 68px;
+      object-fit: contain;
+    }
+
+    .brand-copy h1 {
+      margin: 0;
+      color: var(--blue);
+      font-size: 25px;
+      line-height: 1.1;
+    }
+
+    .brand-copy p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .intro {
+      margin: 0 0 24px;
+      color: #4b5563;
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    input {
+      width: 100%;
+      height: 50px;
+      padding: 0 15px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      outline: none;
+      font-size: 15px;
+      transition: .2s ease;
+    }
+
+    input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 4px rgba(65, 105, 168, .12);
+    }
+
+    button {
+      width: 100%;
+      height: 50px;
+      margin-top: 16px;
+      border: 0;
+      border-radius: 12px;
+      color: #fff;
+      background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 24px rgba(47, 79, 130, .24);
+    }
+
+    button:disabled {
+      cursor: wait;
+      opacity: .7;
+      transform: none;
+    }
+
+    .message {
+      display: none;
+      margin-top: 16px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .message.error {
+      display: block;
+      color: #991b1b;
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+    }
+
+    .message.info {
+      display: block;
+      color: #1e3a5f;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+    }
+
+    .footer {
+      padding: 18px 28px;
+      color: var(--muted);
+      background: #f8fafc;
+      border-top: 1px solid #edf1f6;
+      font-size: 12px;
+      line-height: 1.5;
+      text-align: center;
+    }
+
+    @media (max-width: 560px) {
+      body { padding: 14px; }
+      .content { padding: 30px 24px 28px; }
+      .brand { align-items: flex-start; }
+      .brand img { width: 58px; height: 58px; }
+      .brand-copy h1 { font-size: 22px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="top-bar"></div>
+
+    <section class="content">
+      <div class="brand">
+        <img src="jeisbi.png" alt="JEISBI Logo" onerror="this.style.display='none'">
+        <div class="brand-copy">
+          <h1>Letter of Acceptance</h1>
+          <p>Journal of Emerging Information Systems and Business Intelligence</p>
+        </div>
+      </div>
+
+      <p class="intro">
+        Enter your article ID to verify the acceptance record and display the official JEISBI Letter of Acceptance.
+      </p>
+
+      <form id="verificationForm" novalidate>
+        <label for="articleId">Article ID</label>
+        <input
+          id="articleId"
+          name="articleId"
+          type="text"
+          placeholder="Example: JEISBI-2025-001"
+          autocomplete="off"
+          required
+        >
+        <button id="verifyButton" type="submit">View Letter of Acceptance</button>
+      </form>
+
+      <div id="message" class="message" role="alert"></div>
+    </section>
+
+    <footer class="footer">
+      JEISBI · State University of Surabaya<br>
+      jeisbi@unesa.ac.id
+    </footer>
+  </main>
+
+  <script>
+    const form = document.getElementById('verificationForm');
+    const input = document.getElementById('articleId');
+    const button = document.getElementById('verifyButton');
+    const message = document.getElementById('message');
+
+    function parseCSV(text) {
+      const rows = [];
+      let row = [];
+      let field = '';
+      let quoted = false;
+
+      for (let i = 0; i < text.length; i += 1) {
+        const char = text[i];
+        const next = text[i + 1];
+
+        if (char === '"' && quoted && next === '"') {
+          field += '"';
+          i += 1;
+        } else if (char === '"') {
+          quoted = !quoted;
+        } else if (char === ',' && !quoted) {
+          row.push(field.trim());
+          field = '';
+        } else if ((char === '\n' || char === '\r') && !quoted) {
+          if (char === '\r' && next === '\n') i += 1;
+          row.push(field.trim());
+          field = '';
+          if (row.some(value => value !== '')) rows.push(row);
+          row = [];
+        } else {
+          field += char;
+        }
+      }
+
+      row.push(field.trim());
+      if (row.some(value => value !== '')) rows.push(row);
+      if (rows.length < 2) return [];
+
+      const headers = rows[0].map(header => header.replace(/^\uFEFF/, '').trim());
+      return rows.slice(1).map(values =>
+        headers.reduce((record, header, index) => {
+          record[header] = values[index] ?? '';
+          return record;
+        }, {})
+      );
+    }
+
+    function showMessage(text, type = 'error') {
+      message.textContent = text;
+      message.className = `message ${type}`;
+    }
+
+    function normalize(value) {
+      return String(value || '').trim().toLowerCase();
+    }
+
+    form.addEventListener('submit', async event => {
+      event.preventDefault();
+
+      const articleId = input.value.trim();
+      if (!articleId) {
+        showMessage('Please enter your Article ID.');
+        input.focus();
+        return;
+      }
+
+      button.disabled = true;
+      button.textContent = 'Verifying...';
+      showMessage('Checking the JEISBI acceptance database...', 'info');
+
+      try {
+        const response = await fetch(`data.csv?v=${Date.now()}`, { cache: 'no-store' });
+        if (!response.ok) throw new Error('data.csv could not be loaded.');
+
+        const records = parseCSV(await response.text());
+        const record = records.find(item => normalize(item.article_id) === normalize(articleId));
+
+        if (!record) {
+          showMessage('The Article ID was not found. Please check the ID and try again.');
+          return;
+        }
+
+        if (normalize(record.status) !== 'accepted') {
+          showMessage('The article is not currently marked as accepted.');
+          return;
+        }
+
+        window.location.href = `loa.html?id=${encodeURIComponent(record.article_id)}`;
+      } catch (error) {
+        console.error(error);
+        showMessage('The acceptance database could not be loaded. Please try again later.');
+      } finally {
+        button.disabled = false;
+        button.textContent = 'View Letter of Acceptance';
+      }
+    });
+  </script>
+</body>
+</html>

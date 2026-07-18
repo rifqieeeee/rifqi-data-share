@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" />
+  <title>Payment Confirmation - ICVEE 2026</title>
+
+  <style>
+    :root {
+      --page-width: 210mm;
+      --page-height: 297mm;
+      --page-padding-top: 16mm;
+      --page-padding-right: 18mm;
+      --page-padding-left: 18mm;
+      --primary-blue: #233f84;
+      --secondary-blue: #3f63a7;
+      --light-blue: #eef3fb;
+      --text-color: #222222;
+      --muted-color: #666666;
+      --border-color: #b9c4d8;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      color: var(--text-color);
+      background: #e9edf3;
+      font-family: "Times New Roman", Times, serif;
+    }
+
+    body { padding: 24px; }
+
+    .page {
+      position: relative;
+      width: var(--page-width);
+      min-height: var(--page-height);
+      margin: 0 auto;
+      padding: var(--page-padding-top) var(--page-padding-right) 10mm var(--page-padding-left);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: #fff;
+      box-shadow: 0 8px 26px rgba(0, 0, 0, 0.14);
+    }
+
+    .top-accent {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 3;
+      width: 100%;
+      height: 8px;
+      background: linear-gradient(90deg, var(--primary-blue) 0 72%, var(--secondary-blue) 72% 100%);
+    }
+
+    .corner-shape {
+      position: absolute;
+      top: 8px;
+      right: 0;
+      z-index: 0;
+      width: 72mm;
+      height: 18mm;
+      background: var(--light-blue);
+      clip-path: polygon(28% 0, 100% 0, 100% 100%, 0 100%);
+    }
+
+    .page-watermark {
+      position: absolute;
+      top: 54%;
+      left: 50%;
+      z-index: 1;
+      width: 135mm;
+      height: 135mm;
+      transform: translate(-50%, -50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .page-watermark img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      opacity: 0.10;
+      filter: grayscale(100%) contrast(85%);
+      mix-blend-mode: multiply;
+    }
+
+    .header,
+    .divider,
+    .date,
+    .subject-line,
+    .body-text,
+    .signature-section,
+    .footer {
+      position: relative;
+      z-index: 2;
+    }
+
+    .header {
+      display: grid;
+      grid-template-columns: 31mm 1fr 31mm;
+      align-items: center;
+      column-gap: 8mm;
+      padding-top: 2mm;
+    }
+
+    .logo-image {
+      width: 29mm;
+      height: 29mm;
+      object-fit: contain;
+    }
+
+    .logo-right { justify-self: end; }
+    .conference-block { text-align: center; }
+
+    .conference-title {
+      margin: 0;
+      color: var(--primary-blue);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 16px;
+      font-weight: 800;
+      line-height: 1.22;
+      letter-spacing: 0.35px;
+      text-transform: uppercase;
+    }
+
+    .conference-meta {
+      margin-top: 7px;
+      color: #333;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 10.5px;
+      line-height: 1.45;
+    }
+
+    .divider {
+      height: 1.4px;
+      margin: 8mm 0 6mm;
+      background: linear-gradient(90deg, var(--primary-blue), var(--secondary-blue), transparent);
+    }
+
+    .date {
+      margin-bottom: 6mm;
+      font-size: 12pt;
+      text-align: right;
+    }
+
+    .subject-line {
+      margin: 0 0 6mm;
+      font-size: 12pt;
+      text-align: justify;
+    }
+
+    .subject-line strong {
+      display: inline-block;
+      min-width: 22mm;
+    }
+
+    .body-text {
+      font-size: 12pt;
+      text-align: justify;
+    }
+
+    .body-text p { margin: 0 0 4.5mm; }
+
+    .manuscript-box {
+      width: 100%;
+      margin: 5mm 0 6mm;
+      border-collapse: collapse;
+      font-size: 12pt;
+    }
+
+    .manuscript-box td {
+      padding: 1.2mm 0;
+      vertical-align: top;
+    }
+
+    .manuscript-box td:first-child {
+      width: 33mm;
+      font-weight: 700;
+    }
+
+    .manuscript-box td:nth-child(2) {
+      width: 5mm;
+      text-align: center;
+    }
+
+    .signature-section {
+      width: 73mm;
+      margin: 7mm 0 8mm auto;
+      font-size: 12pt;
+      line-height: 1.45;
+      text-align: left;
+    }
+
+    .signature-space {
+      height: 24mm;
+      display: flex;
+      align-items: center;
+    }
+
+    .signature-image {
+      width: 42mm;
+      height: 20mm;
+      object-fit: contain;
+      object-position: left center;
+    }
+
+    .signature-placeholder {
+      width: 42mm;
+      height: 18mm;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px dashed #aab3c2;
+      border-radius: 4px;
+      color: #8a94a3;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 9px;
+    }
+
+    .signer-name {
+      font-weight: 700;
+      text-decoration: underline;
+    }
+
+    .footer {
+      width: 100%;
+      margin-top: auto;
+      padding: 3mm 0 1mm;
+      border-top: 1px solid var(--border-color);
+      color: var(--muted-color);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 8.5px;
+      line-height: 1.4;
+      text-align: center;
+    }
+
+    .footer strong { color: var(--primary-blue); }
+
+    .loading,
+    .error-panel {
+      width: min(100%, 620px);
+      margin: 80px auto;
+      padding: 30px;
+      border-radius: 16px;
+      background: #fff;
+      box-shadow: 0 16px 40px rgba(35, 63, 132, 0.15);
+      font-family: Arial, Helvetica, sans-serif;
+      text-align: center;
+    }
+
+    .error-panel h1 { color: #b42318; }
+    .error-panel a { color: var(--primary-blue); font-weight: 700; }
+    .hidden { display: none !important; }
+
+    @media screen and (max-width: 900px) {
+      body { padding: 0; background: #fff; }
+      .page { width: 100%; min-height: auto; box-shadow: none; }
+    }
+
+    @media print {
+      @page { size: A4 portrait; margin: 0; }
+      html, body { width: 210mm; height: 297mm; background: #fff; }
+      body { padding: 0; }
+      .page {
+        width: 210mm;
+        min-height: 297mm;
+        margin: 0;
+        box-shadow: none;
+        page-break-after: avoid;
+      }
+      .loading, .error-panel { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div id="loading" class="loading">Loading and verifying payment data...</div>
+
+  <div id="errorPanel" class="error-panel hidden">
+    <h1>Payment Confirmation Not Available</h1>
+    <p id="errorMessage">The requested payment record could not be verified.</p>
+    <a href="index.html">Return to verification page</a>
+  </div>
+
+  <main id="paymentPage" class="page hidden">
+    <div class="page-watermark">
+      <img src="icvee.png" alt="" onerror="this.style.display='none'" />
+    </div>
+
+    <div class="top-accent"></div>
+    <div class="corner-shape"></div>
+
+    <header class="header">
+      <div>
+        <img class="logo-image" src="icvee.png" alt="ICVEE Logo" onerror="this.style.visibility='hidden'" />
+      </div>
+
+      <div class="conference-block">
+        <h1 id="eventName" class="conference-title">ICVEE 2026</h1>
+        <div class="conference-meta">
+          Faculty of Medicine Building, State University of Surabaya,<br />
+          Surabaya, Indonesia<br />
+          <strong id="eventDate"></strong>
+        </div>
+      </div>
+
+      <div class="logo-right">
+        <img class="logo-image" src="unesa.jpg" alt="UNESA Logo" onerror="this.style.visibility='hidden'" />
+      </div>
+    </header>
+
+    <div class="divider"></div>
+
+    <section id="paymentLetterDate" class="date"></section>
+
+    <section class="subject-line">
+      <strong>To:</strong><br />
+      <span id="authors"></span>
+    </section>
+
+    <section class="body-text">
+
+      <p>To whom it may concern,</p>
+
+      <p>
+        This letter serves as an official confirmation that we have successfully
+        received the conference registration payment for the following manuscript:
+      </p>
+
+      <table class="manuscript-box" aria-label="Payment Details">
+        <tr>
+          <td>Manuscript ID</td>
+          <td>:</td>
+          <td id="manuscriptId"></td>
+        </tr>
+
+        <tr>
+          <td>Paper Title</td>
+          <td>:</td>
+          <td id="manuscriptTitle"></td>
+        </tr>
+
+        <tr>
+          <td>Payment Status</td>
+          <td>:</td>
+          <td><strong style="color:#1a7f37;">PAID</strong></td>
+        </tr>
+
+        <tr>
+          <td>Payment Date</td>
+          <td>:</td>
+          <td id="paymentDate"></td>
+        </tr>
+
+        <tr>
+          <td>Payment Amount</td>
+          <td>:</td>
+          <td id="paymentAmount"></td>
+        </tr>
+
+        <tr>
+          <td>Payment Method</td>
+          <td>:</td>
+          <td id="paymentMethod"></td>
+        </tr>
+
+        <tr>
+          <td>Transaction ID</td>
+          <td>:</td>
+          <td id="transactionId"></td>
+        </tr>
+      </table>
+
+      <p>
+        Your payment has been verified by the conference committee. The
+        corresponding manuscript has been registered for presentation at
+        <strong id="eventNameBody"></strong>.
+      </p>
+
+      <p>
+        Please retain this confirmation for your records. Should you require an
+        official invoice, receipt, or further assistance regarding your
+        registration, please contact the conference committee.
+      </p>
+
+      <p>
+        The latest conference information is available at
+        <strong>https://icvee.conference.unesa.ac.id/</strong>, or you may contact
+        us via email at <strong>icvee@unesa.ac.id</strong>.
+      </p>
+
+      <p>
+        Thank you for completing your registration. We look forward to welcoming
+        you to ICVEE 2026.
+      </p>
+
+    </section>
+
+    <section class="signature-section">
+      <div>Yours sincerely,</div>
+
+      <div class="signature-space">
+        <img
+          class="signature-image"
+          src="TTD Rifqi.png"
+          alt="Signature"
+          onerror="this.outerHTML='<div class=&quot;signature-placeholder&quot;>SIGNATURE</div>'"
+        />
+      </div>
+
+      <div id="chairName" class="signer-name"></div>
+      <div id="chairTitle"></div>
+    </section>
+
+    <footer class="footer">
+      <strong>2026 Ninth International Conference on Vocational Education and Electrical Engineering</strong><br />
+      State University of Surabaya · Surabaya, Indonesia
+    </footer>
+  </main>
+
+  <script>
+    const loading = document.getElementById('loading');
+    const errorPanel = document.getElementById('errorPanel');
+    const errorMessage = document.getElementById('errorMessage');
+    const paymentPage = document.getElementById('paymentPage');
+
+    function parseCSV(text) {
+      const rows = [];
+      let row = [];
+      let field = '';
+      let insideQuotes = false;
+
+      for (let i = 0; i < text.length; i += 1) {
+        const char = text[i];
+        const next = text[i + 1];
+
+        if (char === '"' && insideQuotes && next === '"') {
+          field += '"';
+          i += 1;
+        } else if (char === '"') {
+          insideQuotes = !insideQuotes;
+        } else if (char === ',' && !insideQuotes) {
+          row.push(field.trim());
+          field = '';
+        } else if ((char === '\n' || char === '\r') && !insideQuotes) {
+          if (char === '\r' && next === '\n') i += 1;
+          row.push(field.trim());
+          field = '';
+
+          if (row.some(value => value !== '')) rows.push(row);
+          row = [];
+        } else {
+          field += char;
+        }
+      }
+
+      row.push(field.trim());
+      if (row.some(value => value !== '')) rows.push(row);
+      if (rows.length < 2) return [];
+
+      const headers = rows[0].map(header =>
+        header.replace(/^\uFEFF/, '').trim().toLowerCase()
+      );
+
+      return rows.slice(1).map(values =>
+        headers.reduce((record, header, index) => {
+          record[header] = values[index] ?? '';
+          return record;
+        }, {})
+      );
+    }
+
+    function setText(id, value, fallback = '') {
+      const element = document.getElementById(id);
+      if (element) element.textContent = value || fallback;
+    }
+
+    function getValue(record, ...keys) {
+      for (const key of keys) {
+        const value = record[key];
+        if (value !== undefined && String(value).trim() !== '') {
+          return String(value).trim();
+        }
+      }
+      return '';
+    }
+
+    function hideTableRow(elementId) {
+      const element = document.getElementById(elementId);
+      const row = element?.closest('tr');
+      if (row) row.style.display = 'none';
+    }
+
+    function showError(message) {
+      loading.classList.add('hidden');
+      paymentPage.classList.add('hidden');
+      errorMessage.textContent = message;
+      errorPanel.classList.remove('hidden');
+    }
+
+    function isPaymentVerified(record) {
+      const paymentStatus = getValue(
+        record,
+        'payment_status',
+        'paymentstatus',
+        'payment status'
+      ).toLowerCase();
+
+      // Tetap kompatibel dengan data.csv LOA lama tanpa mengubah struktur CSV.
+      if (!paymentStatus) {
+        return getValue(record, 'status').toLowerCase() === 'accepted';
+      }
+
+      return ['paid', 'verified', 'completed', 'success', 'successful'].includes(paymentStatus);
+    }
+
+    async function loadPaymentConfirmation() {
+      const manuscriptId = new URLSearchParams(window.location.search)
+        .get('id')
+        ?.trim();
+
+      if (!manuscriptId) {
+        showError('No Manuscript ID was provided.');
+        return;
+      }
+
+      try {
+        const response = await fetch(`data.csv?v=${Date.now()}`, {
+          cache: 'no-store'
+        });
+
+        if (!response.ok) {
+          throw new Error(`Unable to load data.csv (${response.status})`);
+        }
+
+        const records = parseCSV(await response.text());
+        const record = records.find(item =>
+          getValue(item, 'manuscript_id', 'manuscript id', 'id').toLowerCase() ===
+          manuscriptId.toLowerCase()
+        );
+
+        if (!record) {
+          showError('The Manuscript ID was not found in the conference database.');
+          return;
+        }
+
+        if (!isPaymentVerified(record)) {
+          showError('The conference registration payment has not been verified.');
+          return;
+        }
+
+        const eventName = getValue(record, 'event_name', 'event name') || 'ICVEE 2026';
+        const eventDate = getValue(record, 'event_date', 'event date');
+        const letterDate = getValue(
+          record,
+          'payment_letter_date',
+          'payment_confirmation_date',
+          'letter_date',
+          'payment_date'
+        );
+        const paymentDate = getValue(record, 'payment_date', 'payment date');
+        const paymentAmount = getValue(record, 'payment_amount', 'payment amount', 'amount');
+        const paymentMethod = getValue(record, 'payment_method', 'payment method');
+        const transactionId = getValue(
+          record,
+          'transaction_id',
+          'transaction id',
+          'reference_number',
+          'reference number'
+        );
+
+        setText('eventName', eventName);
+        setText('eventDate', eventDate);
+        setText('paymentLetterDate', letterDate);
+        setText('authors', getValue(record, 'authors', 'author'));
+        setText('manuscriptId', getValue(record, 'manuscript_id', 'manuscript id', 'id'));
+        setText('manuscriptTitle', getValue(record, 'title', 'manuscript_title', 'paper_title'));
+        setText('eventNameBody', eventName);
+        setText('paymentDate', paymentDate);
+        setText('paymentAmount', paymentAmount);
+        setText('paymentMethod', paymentMethod);
+        setText('transactionId', transactionId);
+        setText('chairName', getValue(record, 'chair_name', 'chair name'));
+        setText('chairTitle', getValue(record, 'chair_title', 'chair title'));
+
+        // Field pembayaran bersifat opsional agar data.csv lama tetap dapat digunakan.
+        if (!paymentDate) hideTableRow('paymentDate');
+        if (!paymentAmount) hideTableRow('paymentAmount');
+        if (!paymentMethod) hideTableRow('paymentMethod');
+        if (!transactionId) hideTableRow('transactionId');
+
+        document.title = `Payment Confirmation ${manuscriptId} - ICVEE 2026`;
+        loading.classList.add('hidden');
+        errorPanel.classList.add('hidden');
+        paymentPage.classList.remove('hidden');
+      } catch (error) {
+        console.error(error);
+        showError('The payment database could not be loaded. Please return and try again.');
+      }
+    }
+
+    loadPaymentConfirmation();
+  </script>
+</body>
+</html>
