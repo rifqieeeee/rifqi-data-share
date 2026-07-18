@@ -302,7 +302,7 @@
           return;
         }
 
-        window.location.href = `loa.html?id=${encodeURIComponent(record.article_id)}`;
+        window.location.href = `/jeisbi-loa/loa.html?id=${encodeURIComponent(record.article_id)}`;
       } catch (error) {
         console.error(error);
         showMessage('The acceptance database could not be loaded. Please try again later.');
