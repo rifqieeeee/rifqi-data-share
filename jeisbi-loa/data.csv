@@ -1,4 +1,5 @@
-article_id,authors,article_title,volume_issue,status
-JEISBI-2025-001,"Sindy Rosita Sari, I Kadek Dwi Nuryana","Risk Assessment on Wilujeng Hospital IT Process Using COBIT 2019 Framework","Vol. 6 Issue 4",accepted
-JEISBI-2025-002,"Author One, Author Two","Example Article Title for JEISBI","Vol. 6 Issue 4",accepted
-000,"Rifqi, Monica","Example Article Title for JEISBI","Vol. 6 Issue 4",accepted
+article_id,authors,article_title,volume,issue,no_article,year,status
+000,"Rifqi, Monica, Ghea, Sindy Rosita Sari, I Kadek Dwi Nuryana, Sindy Rosita Sari, I Kadek Dwi Nuryana, Sindy Rosita Sari, I Kadek Dwi Nuryana","Example Article Title for JEISBI Risk Assessment on Wilujeng Hospital IT Process Using COBIT 2019 Framework",6,4,4,2026,accepted
+001,"Sindy Rosita Sari, I Kadek Dwi Nuryana","Risk Assessment on Wilujeng Hospital IT Process Using COBIT 2019 Framework",6,4,5,2026,accepted
+002,"Author One, Author Two","Example Article Title for JEISBI",6,4,6,2026,accepted
+003,"Author Three, Author Four","Article Currently Under Editorial Review",6,4,7,2026,pending

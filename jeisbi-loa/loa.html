@@ -13,6 +13,8 @@
       --page-padding-x: 15mm;
       --blue: #4169a8;
       --text: #292929;
+      --content-font-size: 10.5pt;
+      --content-line-height: 1.35;
     }
 
     * { box-sizing: border-box; }
@@ -32,7 +34,7 @@
       width: var(--page-width);
       min-height: var(--page-height);
       margin: 0 auto;
-      padding: 15mm var(--page-padding-x) 14mm;
+      padding: 15mm var(--page-padding-x) 25mm;
       overflow: hidden;
       background: #fff;
       box-shadow: 0 10px 34px rgba(0, 0, 0, .14);
@@ -59,8 +61,8 @@
       width: 100%;
       height: 100%;
       object-fit: contain;
-      opacity: .085;
-      filter: grayscale(100%);
+      opacity: .15;
+      filter: none;
     }
 
     .header {
@@ -109,27 +111,36 @@
 
     .divider {
       height: 1.2px;
-      margin: 5mm 0 5mm;
+      margin: 5mm 0;
       background: #313131;
     }
 
     .meta {
-      font-size: 10.5pt;
-      line-height: 1.35;
+      font-size: var(--content-font-size);
+      line-height: var(--content-line-height);
     }
 
-    .letter-date { margin-bottom: 1mm; }
-    .meta-row { margin: 0; }
+    .meta-row {
+      text-align: justify;
+      margin: 0;
+      font-size: inherit;
+      line-height: inherit;
+    }
+
     .meta-label { font-weight: 700; }
 
     .body {
       margin-top: 7mm;
-      font-size: 10.35pt;
-      line-height: 1.27;
-      text-align: left;
+      font-size: var(--content-font-size);
+      line-height: var(--content-line-height);
+      text-align: justify;
     }
 
-    .body p { margin: 0; }
+    .body p {
+      margin: 0;
+      font-size: inherit;
+      line-height: inherit;
+    }
     .body strong { font-weight: 800; }
 
     .instruction-title {
@@ -140,11 +151,15 @@
     ol {
       margin: .5mm 0 0 7mm;
       padding-left: 4.3mm;
+      font-size: inherit;
+      line-height: inherit;
     }
 
     li {
       margin: 0 0 .7mm;
       padding-left: .6mm;
+      font-size: inherit;
+      line-height: inherit;
     }
 
     a {
@@ -157,12 +172,34 @@
 
     .signature-block {
       width: 60mm;
-      margin-top: 5mm;
-      font-size: 10.5pt;
-      line-height: 1.32;
+      margin-top: 4mm;
+      font-size: var(--content-font-size);
+      line-height: var(--content-line-height);
+    }
+
+    .signature-image {
+      display: block;
+      width: 30mm;
+      max-height: 22mm;
+      object-fit: contain;
+      object-position: left center;
     }
 
     .editor-name { margin-top: 1mm; }
+
+    .footer {
+      position: absolute;
+      right: var(--page-padding-x);
+      bottom: 10mm;
+      left: var(--page-padding-x);
+      z-index: 2;
+      padding-top: 3mm;
+      border-top: 1px solid #999;
+      color: #555;
+      font-size: 8.8pt;
+      line-height: 1.4;
+      text-align: center;
+    }
 
     .loading,
     .error-panel {
@@ -176,8 +213,8 @@
     }
 
     .loading {
-      font-weight: 700;
       color: var(--blue);
+      font-weight: 700;
     }
 
     .error-panel h1 {
@@ -189,12 +226,15 @@
     .hidden { display: none !important; }
 
     @media screen and (max-width: 900px) {
-      body { padding: 0; background: #fff; }
+      body {
+        padding: 0;
+        background: #fff;
+      }
 
       .page {
         width: 100%;
-        min-height: auto;
-        padding: 24px;
+        min-height: 100vh;
+        padding: 24px 24px 110px;
         box-shadow: none;
       }
 
@@ -207,12 +247,14 @@
       .loa-title { font-size: 28px; }
       .logo { width: 58px; height: 58px; }
 
-      .body {
+      .meta,
+      .body,
+      .signature-block,
+      .letter-meta {
         font-size: 14px;
         line-height: 1.48;
       }
-
-      .meta { font-size: 14px; }
+      .footer { bottom: 24px; }
     }
 
     @media print {
@@ -238,6 +280,26 @@
         display: none !important;
       }
     }
+
+    .letter-meta {
+      margin-bottom: 5mm;
+      font-size: var(--content-font-size);
+      line-height: var(--content-line-height);
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .letter-number {
+      display: inline-block;
+      padding-bottom: .6mm;
+      border-bottom: 1px solid currentColor;
+    }
+
+    .signature-date {
+      margin-top: 0 !important;
+      margin-bottom: 0 !important;
+      text-align: left;
+    }
   </style>
 </head>
 <body>
@@ -250,7 +312,7 @@
   </div>
 
   <main id="loaPage" class="page hidden">
-    <div class="watermark">
+    <div class="watermark" aria-hidden="true">
       <img src="jeisbi.png" alt="">
     </div>
 
@@ -272,7 +334,7 @@
             Business Intelligence (JEISBI)
           </div>
           <div class="contact">
-            Phone: +6231-8280009 | Email: Jeisbi@unesa.ac.id
+            Phone: +6231-8280009 | Email: jeisbi@unesa.ac.id
           </div>
         </div>
       </header>
@@ -280,20 +342,22 @@
       <div class="divider"></div>
 
       <section class="meta">
-        <div id="letterDate" class="letter-date" style="text-align: right;"></div>
+        <div class="letter-meta">
+          <span class="letter-number">
+            Letter No.: <span id="letterNumber"></span>
+          </span>
+        </div>
 
-        <p class="meta-row">
-          <span class="meta-label">Letter to:</span>
-        </p>
+        <p class="meta-row"><span class="meta-label">Letter to:</span></p>
         <p id="authors" class="meta-row"></p>
 
-        <p class="meta-row">
+        <p class="meta-row" style="margin-top: 2mm;">
           <span class="meta-label">Article Title:</span>
         </p>
         <p id="articleTitle" class="meta-row"></p>
       </section>
 
-      <section class="body" style="text-align: justify;">
+      <section class="body">
         <p>Dear Authors,</p><br>
 
         <p>
@@ -301,11 +365,11 @@
           your manuscript has been <strong>ACCEPTED</strong> for publication in the
           <strong>
             Journal of Emerging Information Systems and Business Intelligence
-            (JEISBI) <span id="volumeIssue"></span>.
+            (JEISBI), <span id="publicationDetails"></span>.
           </strong>
           Further updates regarding your submission will be shared through the
           Open Journal System (OJS) to your registered email address. Kindly ensure
-          that you frequently check your email and OJS account for any notifications.
+          that you frequently check your email and OJS account for notifications.
         </p><br>
 
         <p class="instruction-title">IMPORTANT INSTRUCTIONS FOR AUTHORS:</p>
@@ -324,8 +388,8 @@
           </li>
           <li>
             The editorial team reserves the right to make necessary edits to improve
-            the quality of your article, aligning it with journal standards.
-            All changes will be communicated to the author for approval.
+            the quality of your article and align it with journal standards.
+            All substantive changes will be communicated to the author for approval.
           </li>
           <li>
             Ensure that the revised manuscript fully addresses the reviewers'
@@ -341,23 +405,33 @@
             will no longer be possible.
           </li>
           <li>
-            For additional assistance, you may contact us via email at
+            For additional assistance, contact us via email at
             <a href="mailto:jeisbi@unesa.ac.id">jeisbi@unesa.ac.id</a>.
           </li>
         </ol><br>
 
         <p class="closing">
-          We look forward to your cooperation to complete the final steps for publication.
+          We look forward to your cooperation in completing the final steps for publication.
         </p><br>
+        <p class="signature-date">Surabaya, <span id="letterDate"></span></p>
         <p>Sincerely,</p>
       </section>
 
       <section class="signature-block">
-        <div"><img src="monica.png" alt="Monica" style="width: 50%"></div>
+        <img
+          class="signature-image"
+          src="monica.png"
+          alt="Signature of Monica Cinthya"
+          onerror="this.style.display='none'"
+        >
         <div class="editor-name">Monica Cinthya</div>
         <div>JEISBI Chief Editor</div>
       </section>
     </div>
+
+    <footer class="footer">
+      <strong>Journal of Emerging Information Systems and Business Intelligence</strong><br>
+    </footer>
   </main>
 
   <script>
@@ -390,10 +464,7 @@
           row.push(field.trim());
           field = '';
 
-          if (row.some(value => value !== '')) {
-            rows.push(row);
-          }
-
+          if (row.some(value => value !== '')) rows.push(row);
           row = [];
         } else {
           field += char;
@@ -401,11 +472,7 @@
       }
 
       row.push(field.trim());
-
-      if (row.some(value => value !== '')) {
-        rows.push(row);
-      }
-
+      if (row.some(value => value !== '')) rows.push(row);
       if (rows.length < 2) return [];
 
       const headers = rows[0].map(header =>
@@ -437,6 +504,40 @@
       }).format(new Date());
     }
 
+    function formatLetterNumber(record) {
+      const sequence = String(record.no_article || '').trim();
+      const volume = String(record.volume || '').trim();
+      const issue = String(record.issue || '').trim();
+      const year = String(record.year || '').trim();
+
+      if (!sequence || !volume || !issue || !year) return '';
+
+      return `${sequence.padStart(3, '0')}/JEISBI.${volume}.${issue}/LOA/${year}`;
+    }
+
+    function formatPublicationDetails(record) {
+      const volume = String(record.volume || '').trim();
+      const issue = String(record.issue || '').trim();
+      const year = String(record.year || '').trim();
+
+      return `Vol. ${volume}, Issue ${issue}, ${year}`;
+    }
+
+    function validateRecord(record) {
+      const requiredFields = [
+        'article_id',
+        'authors',
+        'article_title',
+        'volume',
+        'issue',
+        'no_article',
+        'year',
+        'status'
+      ];
+
+      return requiredFields.every(field => String(record[field] || '').trim());
+    }
+
     function showError(message) {
       loading.classList.add('hidden');
       loaPage.classList.add('hidden');
@@ -454,17 +555,16 @@
       }
 
       try {
-        const response = await fetch(
-          `/jeisbi-loa/data.csv?v=${Date.now()}`,
-          { cache: 'no-store' }
-        );
+        const csvUrl = new URL('data.csv', window.location.href);
+        csvUrl.searchParams.set('v', Date.now());
+
+        const response = await fetch(csvUrl, { cache: 'no-store' });
 
         if (!response.ok) {
-          throw new Error('Unable to load data.csv.');
+          throw new Error(`Unable to load data.csv (${response.status}).`);
         }
 
         const records = parseCSV(await response.text());
-
         const record = records.find(item =>
           normalize(item.article_id) === normalize(articleId)
         );
@@ -479,10 +579,16 @@
           return;
         }
 
+        if (!validateRecord(record)) {
+          showError('The article record is incomplete. Please contact the JEISBI editorial team.');
+          return;
+        }
+
         setText('letterDate', getCurrentLetterDate());
+        setText('letterNumber', formatLetterNumber(record));
         setText('authors', record.authors);
         setText('articleTitle', record.article_title);
-        setText('volumeIssue', record.volume_issue);
+        setText('publicationDetails', formatPublicationDetails(record));
 
         document.title = `LOA ${record.article_id} - JEISBI`;
 
@@ -491,7 +597,6 @@
         loaPage.classList.remove('hidden');
       } catch (error) {
         console.error(error);
-
         showError(
           'The acceptance database could not be loaded. Please return and try again.'
         );
