@@ -301,7 +301,43 @@
       margin-bottom: 0 !important;
       text-align: left;
     }
+
+    .qr-section {
+      position: absolute;
+      right: 15mm;
+      bottom: 25mm;
+      width: 34mm;
+      text-align: center;
+    }
+
+    .qr-code {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .qr-code img,
+    .qr-code canvas {
+      display: block;
+      width: 27mm !important;
+      height: 27mm !important;
+    }
+
+    .qr-label {
+      margin-top: 1.5mm;
+      color: #555;
+      font-size: 7.5pt;
+      line-height: 1.2;
+    }
+
+    @media print {
+      .qr-section {
+        right: 15mm;
+        bottom: 25mm;
+      }
+    }
   </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 <body>
   <div id="loading" class="loading">Loading and verifying acceptance data...</div>
@@ -430,6 +466,13 @@
       </section>
     </div>
 
+    <div class="qr-section">
+        <div id="qrCode" class="qr-code"></div>
+        <div class="qr-label">
+          Scan to verify this Letter of Acceptance
+        </div>
+    </div>
+
     <footer class="footer">
       <strong>Journal of Emerging Information Systems and Business Intelligence</strong><br>
     </footer>
@@ -524,6 +567,27 @@
       return `Vol. ${volume}, Issue ${issue}, ${year}`;
     }
 
+    function generateQRCode(articleId) {
+      const qrContainer = document.getElementById('qrCode');
+
+      if (!qrContainer || typeof QRCode === 'undefined') {
+        console.error('QR Code library could not be loaded.');
+        return;
+      }
+
+      qrContainer.innerHTML = '';
+
+      const verificationUrl =
+        `https://rifqi-data-share.vercel.app/jeisbi-loa/loa.html?id=${encodeURIComponent(articleId)}`;
+
+      new QRCode(qrContainer, {
+        text: verificationUrl,
+        width: 180,
+        height: 180,
+        correctLevel: QRCode.CorrectLevel.H
+      });
+    }
+
     function validateRecord(record) {
       const requiredFields = [
         'article_id',
@@ -590,6 +654,8 @@
         setText('authors', record.authors);
         setText('articleTitle', record.article_title);
         setText('publicationDetails', formatPublicationDetails(record));
+
+        generateQRCode(record.article_id);
 
         document.title = `LOA ${record.article_id} - JEISBI`;
 
