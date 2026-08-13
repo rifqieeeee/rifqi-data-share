@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <link href="/jeisbi-loa/logo-jeisbi.png" rel="icon">
+  <title>Letter of Acceptance - JEISBI</title>
+
+  <style>
+    :root {
+      --page-width: 210mm;
+      --page-height: 297mm;
+      --page-padding-x: 15mm;
+      --blue: #4169a8;
+      --text: #292929;
+      --content-font-size: 10.5pt;
+      --content-line-height: 1.35;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      color: var(--text);
+      background: #e9edf3;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body { padding: 24px; }
+
+    .page {
+      position: relative;
+      width: var(--page-width);
+      min-height: var(--page-height);
+      margin: 0 auto;
+      padding: 15mm var(--page-padding-x) 25mm;
+      overflow: hidden;
+      background: #fff;
+      box-shadow: 0 10px 34px rgba(0, 0, 0, .14);
+    }
+
+    .page-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .watermark {
+      position: absolute;
+      top: 53%;
+      left: 50%;
+      z-index: 1;
+      width: 117mm;
+      height: 117mm;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .watermark img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      opacity: .15;
+      filter: none;
+    }
+
+    .header {
+      display: grid;
+      grid-template-columns: 1.07fr .93fr;
+      align-items: start;
+      gap: 10mm;
+    }
+
+    .title-side {
+      display: flex;
+      align-items: flex-start;
+      gap: 4mm;
+    }
+
+    .logo {
+      width: 18mm;
+      height: 18mm;
+      object-fit: contain;
+      flex: 0 0 auto;
+    }
+
+    .loa-title {
+      margin: -1mm 0 0;
+      color: var(--blue);
+      font-size: 24pt;
+      font-weight: 800;
+      line-height: .98;
+      letter-spacing: .1px;
+    }
+
+    .journal-side {
+      padding-top: 1mm;
+      font-size: 9.5pt;
+      line-height: 1.4;
+      text-align: right;
+    }
+
+    .journal-name { font-weight: 700; }
+
+    .contact {
+      margin-top: 2mm;
+      font-size: 9pt;
+      font-style: italic;
+    }
+
+    .divider {
+      height: 1.2px;
+      margin: 5mm 0;
+      background: #313131;
+    }
+
+    .meta {
+      font-size: var(--content-font-size);
+      line-height: var(--content-line-height);
+    }
+
+    .meta-row {
+      text-align: justify;
+      margin: 0;
+      font-size: inherit;
+      line-height: inherit;
+    }
+
+    .meta-label { font-weight: 700; }
+
+    .body {
+      margin-top: 7mm;
+      font-size: var(--content-font-size);
+      line-height: var(--content-line-height);
+      text-align: justify;
+    }
+
+    .body p {
+      margin: 0;
+      font-size: inherit;
+      line-height: inherit;
+    }
+    .body strong { font-weight: 800; }
+
+    .instruction-title {
+      margin-top: 1mm !important;
+      font-weight: 800;
+    }
+
+    ol {
+      margin: .5mm 0 0 7mm;
+      padding-left: 4.3mm;
+      font-size: inherit;
+      line-height: inherit;
+    }
+
+    li {
+      margin: 0 0 .7mm;
+      padding-left: .6mm;
+      font-size: inherit;
+      line-height: inherit;
+    }
+
+    a {
+      color: #2365c4;
+      font-weight: 700;
+      text-decoration: underline;
+    }
+
+    .closing { margin-top: 1mm !important; }
+
+    .signature-block {
+      width: 60mm;
+      margin-top: 4mm;
+      font-size: var(--content-font-size);
+      line-height: var(--content-line-height);
+    }
+
+    .signature-image {
+      display: block;
+      width: 30mm;
+      max-height: 22mm;
+      object-fit: contain;
+      object-position: left center;
+    }
+
+    .editor-name { margin-top: 1mm; }
+
+    .footer {
+      position: absolute;
+      right: var(--page-padding-x);
+      bottom: 10mm;
+      left: var(--page-padding-x);
+      z-index: 2;
+      padding-top: 3mm;
+      border-top: 1px solid #999;
+      color: #555;
+      font-size: 8.8pt;
+      line-height: 1.4;
+      text-align: center;
+    }
+
+    .loading,
+    .error-panel {
+      width: min(100%, 620px);
+      margin: 80px auto;
+      padding: 30px;
+      border-radius: 16px;
+      background: #fff;
+      box-shadow: 0 16px 40px rgba(65, 105, 168, .15);
+      text-align: center;
+    }
+
+    .loading {
+      color: var(--blue);
+      font-weight: 700;
+    }
+
+    .error-panel h1 {
+      margin-top: 0;
+      color: #b42318;
+    }
+
+    .error-panel a { color: var(--blue); }
+    .hidden { display: none !important; }
+
+    @media screen and (max-width: 900px) {
+      body {
+        padding: 0;
+        background: #fff;
+      }
+
+      .page {
+        width: 100%;
+        min-height: 100vh;
+        padding: 24px 24px 110px;
+        box-shadow: none;
+      }
+
+      .header {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+
+      .journal-side { text-align: left; }
+      .loa-title { font-size: 28px; }
+      .logo { width: 58px; height: 58px; }
+
+      .meta,
+      .body,
+      .signature-block,
+      .letter-meta {
+        font-size: 14px;
+        line-height: 1.48;
+      }
+      .footer { bottom: 24px; }
+    }
+
+    @media print {
+      @page { size: A4 portrait; margin: 0; }
+
+      html, body {
+        width: 210mm;
+        height: 297mm;
+        background: #fff;
+      }
+
+      body { padding: 0; }
+
+      .page {
+        width: 210mm;
+        min-height: 297mm;
+        margin: 0;
+        box-shadow: none;
+      }
+
+      .loading,
+      .error-panel {
+        display: none !important;
+      }
+    }
+
+    .letter-meta{
+        text-align:right;
+        margin-bottom:3mm;
+        font-size:var(--content-font-size);
+        font-weight:700;
+    }
+
+    .letter-number{
+        display:inline-block;
+        border:none;
+        padding:0;
+        font-weight:700;
+        color:var(--blue);
+    }
+
+    .signature-date {
+      margin-top: 0 !important;
+      margin-bottom: 0 !important;
+      text-align: left;
+    }
+
+    .qr-section {
+      position: absolute;
+      right: 15mm;
+      bottom: 25mm;
+      width: 34mm;
+      text-align: center;
+    }
+
+    .qr-code {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .qr-code img,
+    .qr-code canvas {
+      display: block;
+      width: 27mm !important;
+      height: 27mm !important;
+    }
+
+    .qr-label {
+      margin-top: 1.5mm;
+      color: #555;
+      font-size: 7.5pt;
+      line-height: 1.2;
+    }
+
+    @media print {
+      .qr-section {
+        right: 15mm;
+        bottom: 25mm;
+      }
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+  <div id="loading" class="loading">Loading and verifying acceptance data...</div>
+
+  <div id="errorPanel" class="error-panel hidden">
+    <h1>LOA Not Available</h1>
+    <p id="errorMessage">The requested article could not be verified.</p>
+    <a href="index.html">Return to verification page</a>
+  </div>
+
+  <main id="loaPage" class="page hidden">
+    <div class="watermark" aria-hidden="true">
+      <img src="jeisbi.png" alt="">
+    </div>
+
+    <div class="page-content">
+      <header class="header">
+        <div class="title-side">
+          <img
+            class="logo"
+            src="jeisbi.png"
+            alt="JEISBI Logo"
+            onerror="this.style.visibility='hidden'"
+          >
+          <h1 class="loa-title">Letter of<br>Acceptance</h1>
+        </div>
+
+        <div class="journal-side">
+          <div class="journal-name">
+            Journal of Emerging Information Systems and<br>
+            Business Intelligence (JEISBI)
+          </div>
+          <div class="contact">
+            Phone: +6231-8280009 | Email: jeisbi@unesa.ac.id
+          </div>
+        </div>
+      </header>
+
+      <div class="divider"></div>
+
+      <section class="meta">
+        <div class="letter-meta">
+          <span class="letter-number">
+            <span id="letterNumber"></span>
+          </span>
+        </div>
+
+        <p class="meta-row"><span class="meta-label">Letter to:</span></p>
+        <p id="authors" class="meta-row"></p>
+
+        <p class="meta-row" style="margin-top: 2mm;">
+          <span class="meta-label">Article Title:</span>
+        </p>
+        <p id="articleTitle" class="meta-row"></p>
+      </section>
+
+      <section class="body">
+        <p>Dear Authors,</p>
+
+        <p>
+          We are pleased to inform you that, following the editorial review process,
+          your manuscript has been <strong>ACCEPTED</strong> for publication in the
+          <strong>
+            Journal of Emerging Information Systems and Business Intelligence
+            (JEISBI), <span id="publicationDetails"></span>.
+          </strong>
+          Further updates regarding your submission will be shared through the
+          Open Journal System (OJS) to your registered email address. Kindly ensure
+          that you frequently check your email and OJS account for notifications.
+        </p>
+
+        <p class="instruction-title">IMPORTANT INSTRUCTIONS FOR AUTHORS:</p>
+
+        <ol>
+          <li>
+            Please upload the final version of your manuscript within
+            <strong>21 days</strong> from the date of this letter to ensure inclusion
+            in the publication schedule. Failure to do so may result in
+            <strong>cancellation.</strong>
+          </li>
+          <li>
+            Authors may revise their manuscript as needed based on feedback; however,
+            once the copyright form is signed and the final document is uploaded,
+            no further revisions will be permitted.
+          </li>
+          <li>
+            The editorial team reserves the right to make necessary edits to improve
+            the quality of your article and align it with journal standards.
+            All substantive changes will be communicated to the author for approval.
+          </li>
+          <li>
+            Ensure that the revised manuscript fully addresses the reviewers'
+            comments. Include a response letter outlining how each suggestion
+            was incorporated.
+          </li>
+          <li>
+            The journal will finalize formatting details, including the header and
+            footer, based on its standard template.
+          </li>
+          <li>
+            Once the copyright agreement is submitted, withdrawal of the manuscript
+            will no longer be possible.
+          </li>
+          <li>
+            For additional assistance, contact us via email at
+            <a href="mailto:jeisbi@unesa.ac.id">jeisbi@unesa.ac.id</a>.
+          </li>
+        </ol>
+
+        <p class="closing">
+          We look forward to your cooperation in completing the final steps for publication.
+        </p><br>
+        <p class="signature-date"><span id="letterDate"></span></p>
+        <p>Sincerely,</p>
+      </section>
+
+      <section class="signature-block">
+        <img
+          class="signature-image"
+          src="monica.png"
+          alt="Signature of Monica Cinthya"
+          onerror="this.style.display='none'"
+        >
+        <div class="editor-name">Monica Cinthya</div>
+        <div>JEISBI Chief Editor</div>
+      </section>
+    </div>
+
+    <div class="qr-section">
+        <div id="qrCode" class="qr-code"></div>
+        <div class="qr-label">
+          Scan to verify this<br>Letter of Acceptance
+        </div>
+    </div>
+
+    <footer class="footer">
+      <strong>Journal of Emerging Information Systems and Business Intelligence</strong><br>
+      <i><small><a href="https://ejournal.unesa.ac.id/index.php/JEISBI">https://ejournal.unesa.ac.id/index.php/JEISBI</a></small></i>
+    </footer>
+  </main>
+
+  <script>
+    const loading = document.getElementById('loading');
+    const errorPanel = document.getElementById('errorPanel');
+    const errorMessage = document.getElementById('errorMessage');
+    const loaPage = document.getElementById('loaPage');
+
+    function parseCSV(text) {
+      const rows = [];
+      let row = [];
+      let field = '';
+      let insideQuotes = false;
+
+      for (let i = 0; i < text.length; i += 1) {
+        const char = text[i];
+        const next = text[i + 1];
+
+        if (char === '"' && insideQuotes && next === '"') {
+          field += '"';
+          i += 1;
+        } else if (char === '"') {
+          insideQuotes = !insideQuotes;
+        } else if (char === ',' && !insideQuotes) {
+          row.push(field.trim());
+          field = '';
+        } else if ((char === '\n' || char === '\r') && !insideQuotes) {
+          if (char === '\r' && next === '\n') i += 1;
+
+          row.push(field.trim());
+          field = '';
+
+          if (row.some(value => value !== '')) rows.push(row);
+          row = [];
+        } else {
+          field += char;
+        }
+      }
+
+      row.push(field.trim());
+      if (row.some(value => value !== '')) rows.push(row);
+      if (rows.length < 2) return [];
+
+      const headers = rows[0].map(header =>
+        header.replace(/^\uFEFF/, '').trim()
+      );
+
+      return rows.slice(1).map(values =>
+        headers.reduce((record, header, index) => {
+          record[header] = values[index] ?? '';
+          return record;
+        }, {})
+      );
+    }
+
+    function setText(id, value) {
+      const element = document.getElementById(id);
+      if (element) element.textContent = value || '';
+    }
+
+    function normalize(value) {
+      return String(value || '').trim().toLowerCase();
+    }
+
+    function getCurrentLetterDate() {
+      return new Intl.DateTimeFormat('en-US', {
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric'
+      }).format(new Date());
+    }
+
+    function formatLetterNumber(record) {
+      const sequence = String(record.no_article || '').trim();
+      const volume = String(record.volume || '').trim();
+      const issue = String(record.issue || '').trim();
+      const year = String(record.year || '').trim();
+
+      if (!sequence || !volume || !issue || !year) return '';
+
+      return `${sequence.padStart(3, '0')}/JEISBI.${volume}.${issue}/LOA/${year}`;
+    }
+
+    function formatPublicationDetails(record) {
+      const volume = String(record.volume || '').trim();
+      const issue = String(record.issue || '').trim();
+      const year = String(record.year || '').trim();
+
+      return `Vol. ${volume}, Issue ${issue}, ${year}`;
+    }
+
+    function generateQRCode(articleId) {
+      const qrContainer = document.getElementById('qrCode');
+
+      if (!qrContainer || typeof QRCode === 'undefined') {
+        console.error('QR Code library could not be loaded.');
+        return;
+      }
+
+      qrContainer.innerHTML = '';
+
+      const verificationUrl =
+        `https://rifqi-data-share.vercel.app/jeisbi-loa/loa.html?id=${encodeURIComponent(articleId)}`;
+
+      new QRCode(qrContainer, {
+        text: verificationUrl,
+        width: 180,
+        height: 180,
+        correctLevel: QRCode.CorrectLevel.H
+      });
+    }
+
+    function validateRecord(record) {
+      const requiredFields = [
+        'article_id',
+        'authors',
+        'article_title',
+        'volume',
+        'issue',
+        'no_article',
+        'year',
+        'status'
+      ];
+
+      return requiredFields.every(field => String(record[field] || '').trim());
+    }
+
+    function showError(message) {
+      loading.classList.add('hidden');
+      loaPage.classList.add('hidden');
+      errorMessage.textContent = message;
+      errorPanel.classList.remove('hidden');
+    }
+
+    async function loadLOA() {
+      const articleId =
+        new URLSearchParams(window.location.search).get('id')?.trim();
+
+      if (!articleId) {
+        showError('No Article ID was provided.');
+        return;
+      }
+
+      try {
+        const csvUrl = new URL('data.csv', window.location.href);
+        csvUrl.searchParams.set('v', Date.now());
+
+        const response = await fetch(csvUrl, { cache: 'no-store' });
+
+        if (!response.ok) {
+          throw new Error(`Unable to load data.csv (${response.status}).`);
+        }
+
+        const records = parseCSV(await response.text());
+        const record = records.find(item =>
+          normalize(item.article_id) === normalize(articleId)
+        );
+
+        if (!record) {
+          showError('The Article ID was not found in the JEISBI database.');
+          return;
+        }
+
+        if (normalize(record.status) !== 'accepted') {
+          showError('This article is not currently marked as accepted.');
+          return;
+        }
+
+        if (!validateRecord(record)) {
+          showError('The article record is incomplete. Please contact the JEISBI editorial team.');
+          return;
+        }
+
+        setText('letterDate', getCurrentLetterDate());
+        setText('letterNumber', formatLetterNumber(record));
+        setText('authors', record.authors);
+        setText('articleTitle', record.article_title);
+        setText('publicationDetails', formatPublicationDetails(record));
+
+        generateQRCode(record.article_id);
+
+        document.title = `LOA ${record.article_id} - JEISBI`;
+
+        loading.classList.add('hidden');
+        errorPanel.classList.add('hidden');
+        loaPage.classList.remove('hidden');
+      } catch (error) {
+        console.error(error);
+        showError(
+          'The acceptance database could not be loaded. Please return and try again.'
+        );
+      }
+    }
+
+    loadLOA();
+  </script>
+</body>
+</html>
